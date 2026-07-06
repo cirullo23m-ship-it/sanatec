@@ -243,14 +243,14 @@
   [id^="day-"] { scroll-margin-top: 64px; }
 
   /* CALENDARIO */
-  .cal-wrap { background: var(--cream); padding: 32px 16px 40px; }
+  .cal-wrap { background: #FAFAF7; padding: 32px 16px 40px; }
   .cal-title { text-align: center; color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
   .cal-months { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; max-width: 600px; margin: 0 auto; }
   .cal-month { flex: 1; min-width: 260px; }
-  .cal-month-title { text-align: center; font-weight: 700; font-size: 13px; color: var(--dark); margin-bottom: 8px; }
+  .cal-month-title { text-align: center; font-weight: 700; font-size: 13px; color: var(--negro); margin-bottom: 8px; }
   .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
   .cal-dow { text-align: center; font-size: 10px; font-weight: 700; color: #999; padding-bottom: 4px; }
-  .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 12px; color: #ccc; background: var(--gray-light); }
+  .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 12px; color: #ccc; background: var(--gris2); }
   .cal-day.empty { background: transparent; }
   .cal-day.trip { cursor: pointer; color: white; font-weight: 700; border: 2px solid transparent; transition: transform .15s; }
   .cal-day.trip:hover { transform: scale(1.1); }
@@ -259,7 +259,7 @@
   .cal-day.trip.cea { background: #2ec4b6; }
   .cal-day.trip.smt { background: #f4a261; }
   .cal-day.trip.fly { background: #666; }
-  .cal-day.trip.today-active { border-color: var(--dark); box-shadow: 0 0 0 2px white, 0 0 0 4px var(--dark); }
+  .cal-day.trip.today-active { border-color: var(--negro); box-shadow: 0 0 0 2px white, 0 0 0 4px var(--negro); }
   .cal-legend { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 18px; }
   .cal-leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #666; }
   .cal-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
@@ -277,6 +277,27 @@
     transition: opacity .25s; opacity: 0; pointer-events: none;
   }
   .section-indicator.visible { opacity: 1; }
+
+  /* CALENDAR FAB + POPUP */
+  .cal-fab {
+    position: fixed; right: 14px; bottom: 20px; z-index: 95; width: 48px; height: 48px;
+    border-radius: 50%; border: none; background: var(--azul); color: white; font-size: 20px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .cal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 98; opacity: 0; pointer-events: none; transition: opacity .2s;
+  }
+  .cal-overlay.open { opacity: 1; pointer-events: auto; }
+  .cal-popup {
+    position: fixed; left: 50%; bottom: 0; transform: translate(-50%, 100%); width: min(92vw, 420px);
+    max-height: 82vh; overflow-y: auto; background: #FAFAF7; border-radius: 18px 18px 0 0; z-index: 99;
+    padding: 18px 14px 26px; box-shadow: 0 -4px 24px rgba(0,0,0,0.3); transition: transform .25s ease;
+  }
+  .cal-popup.open { transform: translate(-50%, 0); }
+  .cal-popup-close {
+    position: absolute; top: 10px; right: 14px; background: var(--gris2); border: none; border-radius: 50%;
+    width: 28px; height: 28px; font-size: 14px; cursor: pointer; color: #555;
+  }
 
   /* UTILS */
   .mt8 { margin-top: 8px; }
@@ -314,6 +335,13 @@
 </nav>
 
 <div class="section-indicator" id="section-indicator"></div>
+
+<button class="cal-fab" id="cal-fab" aria-label="Abrir calendario">📅</button>
+<div class="cal-overlay" id="cal-overlay"></div>
+<div class="cal-popup" id="cal-popup">
+  <button class="cal-popup-close" id="cal-popup-close">✕</button>
+  <div id="cal-popup-body"></div>
+</div>
 
 <!-- COVER -->
 <section id="cover">
@@ -742,9 +770,9 @@
       </div>
     </div>
 
-    <div class="card">
+    <div id="day-jul23" class="card">
       <div class="card-body">
-        <div id="day-jul23" class="card-title">🍹 Jueves 23 — Noche de aterrizaje</div>
+        <div class="card-title">🍹 Jueves 23 — Noche de aterrizaje</div>
         <div class="card-text">Llegan al Big Pool House a la noche molidos de vuelos (MVD-BOG-CTG-MDE, 18:15 aterrizan). No va SCI porque quema el jueves de electrónica para gente muy fresca — mejor guardarlo para el viernes.</div>
         <div class="accordion mt16">
           <div class="acc-item">
@@ -761,9 +789,9 @@
       </div>
     </div>
 
-    <div class="card">
+    <div id="day-jul24" class="card">
       <div class="card-body">
-        <div id="day-jul24" class="card-title">☀️ Viernes 24 — Actividades de día</div>
+        <div class="card-title">☀️ Viernes 24 — Actividades de día</div>
         <div class="card-text">Dos opciones. Se puede hacer una o las dos si se arranca temprano con C13 a las 9am y Guatapé al día siguiente (pero el vuelo es el sábado, así que todo el viernes).</div>
 
         <div class="accordion mt16">
@@ -850,9 +878,9 @@
       </div>
     </div>
 
-    <div class="card">
+    <div id="day-jul25" class="card">
       <div class="card-body">
-        <div id="day-jul25" class="card-title">🍺 Sábado 25 — Primera parada, arranque tropical</div>
+        <div class="card-title">🍺 Sábado 25 — Primera parada, arranque tropical</div>
         <div class="card-text">Llegan de Medellín (JetSmart JA5412), tienen la villa colonial en la Ciudad Amurallada. Duermen ahí una sola noche antes de irse a Casa en el Agua. Hay que aprovechar.</div>
         <div class="accordion mt16">
           <div class="acc-item">
@@ -875,7 +903,7 @@
   <div class="container">
     <div class="sec-header"><div class="sec-flag"></div><div><div class="sec-title">Casa en el Agua</div><div class="sec-sub">26 – 28 Julio · 2 noches · Islas de San Bernardo</div></div></div>
 
-    <div class="card mt16">
+    <div id="day-jul26" class="card mt16">
       <div class="slider" id="sl-casaagua">
         <div class="slider-track" id="sl-casaagua-track"></div>
         <button class="slider-btn slider-prev" onclick="slide('sl-casaagua',-1)">‹</button>
@@ -884,7 +912,7 @@
       </div>
       <div class="card-body">
         <span class="card-badge badge-cea">Casa en el Agua</span>
-        <div id="day-jul26" class="card-title">Hostel flotante en medio del Caribe 🌊</div>
+        <div class="card-title">Hostel flotante en medio del Caribe 🌊</div>
         <div class="card-dates">Dom 26 → Mar 28 Jul · Reserva #1747268960310 · ✅ Pagado</div>
         <div class="card-text">Casa de madera construida sobre el agua en las Islas de San Bernardo. Sin tierra en ninguna dirección — solo mar, corales y atardeceres imposibles.</div>
         <div class="info-row">
@@ -935,7 +963,7 @@
   <div class="container">
     <div class="sec-header"><div class="sec-flag"></div><div><div class="sec-title">Santa Marta & Tayrona</div><div class="sec-sub">28 – 31 Julio · 3 noches · Masaya + La Brisa Loca</div></div></div>
 
-    <div class="card mt16">
+    <div id="day-jul28" class="card mt16">
       <div class="slider" id="sl-masaya">
         <div class="slider-track" id="sl-masaya-track"></div>
         <button class="slider-btn slider-prev" onclick="slide('sl-masaya',-1)">‹</button>
@@ -944,7 +972,7 @@
       </div>
       <div class="card-body">
         <span class="card-badge badge-smt">Santa Marta</span>
-        <div id="day-jul28" class="card-title">Hostal Masaya Santa Marta</div>
+        <div class="card-title">Hostal Masaya Santa Marta</div>
         <div class="card-dates">Mar 28 → Jue 30 Jul | Confirmación #2964791597343</div>
         <div class="card-text">Casa colonial en el centro histórico, cama en dormitorio de 14 personas con desayuno incluido. Piscina, buen ambiente, a pasos del Malecón.</div>
         <div class="info-row">
@@ -975,9 +1003,9 @@
       </div>
     </div>
 
-    <div class="card">
+    <div id="day-jul29" class="card">
       <div class="card-body">
-        <div id="day-jul29" class="card-title">🚤 Miércoles 29 — Lancha deportiva · 3 bahías</div>
+        <div class="card-title">🚤 Miércoles 29 — Lancha deportiva · 3 bahías</div>
         <div class="card-dates">Cinto · Granate · Gayraca | 9am → 5pm | Operador: Taylor</div>
         <div class="card-text">Recorrido por las 3 bahías más salvajes del Parque Tayrona en lancha deportiva.</div>
         <div class="slider mt16" id="sl-lancha3bahias" style="border-radius:12px;">
@@ -998,9 +1026,9 @@
       </div>
     </div>
 
-    <div class="card">
+    <div id="day-jul30" class="card">
       <div class="card-body">
-        <div id="day-jul30" class="card-title">⛵ Jueves 30 — Catamarán Filavia II · Bahía Concha</div>
+        <div class="card-title">⛵ Jueves 30 — Catamarán Filavia II · Bahía Concha</div>
         <div class="card-dates">Bahía Concha | 9am → 5pm | Operador: Taylor</div>
         <div class="card-text">Día completo en el Catamarán Filavia II. Bahía Concha a ~1h en catamarán (vs 3h si fuesen a Cinto). Aguas de tres colores, snorkel, sol en cubierta.</div>
         <div class="slider mt16" id="sl-catamaranconcha" style="border-radius:12px;">
@@ -1035,7 +1063,7 @@
   <div class="container">
     <div class="sec-header"><div class="sec-flag"></div><div><div class="sec-title">Cartagena — Cierre</div><div class="sec-sub">31 Julio – 2 Agosto · 2 noches · Ciudad Amurallada</div></div></div>
 
-    <div class="card mt16">
+    <div id="day-jul31" class="card mt16">
       <div class="slider" id="sl-lillian">
         <div class="slider-track" id="sl-lillian-track"></div>
         <button class="slider-btn slider-prev" onclick="slide('sl-lillian',-1)">‹</button>
@@ -1044,7 +1072,7 @@
       </div>
       <div class="card-body">
         <span class="card-badge badge-ctg">Cartagena</span>
-        <div id="day-jul31" class="card-title">Lillian Barbara — 9 dormitorios · Jacuzzi · Billar</div>
+        <div class="card-title">Lillian Barbara — 9 dormitorios · Jacuzzi · Billar</div>
         <div class="card-dates">Vie 31 Jul → Dom 2 Ago | Ciudad Amurallada</div>
         <div class="card-text">La casa grande del final del viaje. 9 dormitorios en suite, jacuzzi climatizado, mesa de billar. Explícitamente pensada para grupos y celebraciones.</div>
         <div class="info-row">
@@ -1170,8 +1198,6 @@
         <a class="ig-btn" href="https://instagram.com/mister_babilla_cartagena" target="_blank" rel="noopener">📷 @mister_babilla_cartagena</a>
       </div>
     </div>
-  </div>
-
 
     <div class="card">
       <div class="card-body">
@@ -1192,9 +1218,9 @@
       </div>
     </div>
 
-    <div class="card">
+    <div id="day-ago1" class="card">
       <div class="card-body">
-        <div id="day-ago1" class="card-title">👑 Sábado 1 — Última noche del viaje, cierre a lo grande</div>
+        <div class="card-title">👑 Sábado 1 — Última noche del viaje, cierre a lo grande</div>
         <div class="card-text">La despedida. Cartagena tiene que quedar picando. Lo mejor es irse a lo alto.</div>
         <div class="accordion mt16">
           <div class="acc-item">
@@ -1211,9 +1237,9 @@
       </div>
     </div>
 
-    <div class="card">
+    <div id="day-ago2" class="card">
       <div class="card-body">
-        <div id="day-ago2" class="card-title">✈️ Vuelta — Dom 2 Agosto</div>
+        <div class="card-title">✈️ Vuelta — Dom 2 Agosto</div>
         <div class="card-dates">CTG 17:25 → BOG → MVD 05:55 (lun 3)</div>
         <div class="card-text">Mañana libre el domingo antes de la salida. Estar en el aeropuerto antes de las 15:30.</div>
       </div>
@@ -1255,7 +1281,7 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;">
         <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Comidas diarias (8 días · según menú Brisa Loca)</div><div style="color:white;font-weight:700;">~USD 20-25/día</div></div>
         <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Casa en el Agua · consumo (2 días, aparte de comidas)</div><div style="color:white;font-weight:700;">~USD 50-60</div></div>
-        <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Boliches / entradas</div><div style="color:white;font-weight:700;">~USD 20-40</div></div>
+        <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Entradas boliches (Miranda, SCI, Babilla, Fidel+Havana, La Movida — 5 noches del itinerario tentativo)</div><div style="color:white;font-weight:700;">~USD 50-65</div></div>
         <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Uber / transfers (8 días)</div><div style="color:white;font-weight:700;">~USD 40-80</div></div>
         <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Tour Guatapé (opcional)</div><div style="color:white;font-weight:700;">~USD 40-45</div></div>
         <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Tour C13 (opcional, con guía)</div><div style="color:white;font-weight:700;">~USD 10-25</div></div>
@@ -1264,7 +1290,7 @@
     </div>
     <div class="gastos-total-box" style="margin-top:14px;background:linear-gradient(135deg,#2D7D52,#4CAF7D);">
       <div><div class="label" style="color:white;">Estimado TOTAL del viaje por persona</div><div class="sub" style="color:#e8f5ee;">Reservas + comidas/boliches/transfers · sin tours opcionales</div></div>
-      <div style="text-align:right;"><div class="amount" style="color:white;">~$1.840 – 1.950</div><div class="sub" style="color:#e8f5ee;">USD por persona (+ ~$50-70 si suman Guatapé/C13)</div></div>
+      <div style="text-align:right;"><div class="amount" style="color:white;">~$1.870 – 1.970</div><div class="sub" style="color:#e8f5ee;">USD por persona (+ ~$50-70 si suman Guatapé/C13)</div></div>
     </div>
   </div>
 </section>
@@ -1486,6 +1512,21 @@ function updateSlider(id) {
   dots.forEach((d, i) => d.classList.toggle('active', i === st.current));
 }
 
+// ---- CALENDAR FAB / POPUP ----
+const calPopupBody = document.getElementById('cal-popup-body');
+const calSource = document.querySelector('.cal-wrap .container');
+if (calPopupBody && calSource) calPopupBody.innerHTML = calSource.innerHTML;
+
+const calFab = document.getElementById('cal-fab');
+const calOverlay = document.getElementById('cal-overlay');
+const calPopup = document.getElementById('cal-popup');
+const calPopupClose = document.getElementById('cal-popup-close');
+function openCalPopup() { calOverlay.classList.add('open'); calPopup.classList.add('open'); }
+function closeCalPopup() { calOverlay.classList.remove('open'); calPopup.classList.remove('open'); }
+if (calFab) calFab.addEventListener('click', openCalPopup);
+if (calOverlay) calOverlay.addEventListener('click', closeCalPopup);
+if (calPopupClose) calPopupClose.addEventListener('click', closeCalPopup);
+
 // ---- NAV ACTIVE + SECTION INDICATOR ----
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('nav a[href^="#"]');
@@ -1514,6 +1555,7 @@ calDays.forEach(c => {
   c.addEventListener('click', () => {
     const target = document.getElementById(c.dataset.anchor);
     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    closeCalPopup();
   });
 });
 
