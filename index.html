@@ -55,6 +55,49 @@
   .mobile-menu button:hover, .mobile-menu button.active { color: var(--turquesa); background: rgba(255,255,255,.05); }
   .mobile-close { position: absolute; top: 14px; right: 18px; background: none; border: none; color: #ccc; font-size: 22px; cursor: pointer; }
 
+  /* NAV DROPDOWN (Ruta -> ciudad -> Alojamiento/Dia/Noche) */
+  .nav-dropdown { position: relative; }
+  .nav-drop-trigger {
+    background: none; border: none; cursor: pointer;
+    color: #ccc; font-size: 11px; font-weight: 700;
+    letter-spacing: .5px; text-transform: uppercase;
+    padding: 10px 12px; border-radius: 6px; transition: color .2s, background .2s;
+  }
+  .nav-drop-trigger:hover, .nav-drop-trigger.active { color: var(--turquesa); background: rgba(255,255,255,.08); }
+  .nav-submenu {
+    display: none; position: absolute; top: 100%; right: 0; background: var(--negro);
+    border-radius: 10px; padding: 8px; min-width: 230px; max-height: 70vh; overflow-y: auto;
+    box-shadow: var(--sombra); z-index: 1200;
+  }
+  .nav-dropdown:hover .nav-submenu { display: block; }
+  .nav-city-group { padding: 6px 0; border-top: 1px solid #262626; }
+  .nav-city-group:first-child { border-top: none; }
+  .nav-city-label {
+    display: block; padding: 6px 10px 4px; font-size: 11px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: .5px; color: var(--turquesa); white-space: nowrap;
+  }
+  .nav-city-group button {
+    display: block; width: 100%; text-align: left; background: none; border: none;
+    color: #ccc; font-size: 12px; padding: 8px 10px 8px 18px; cursor: pointer; border-radius: 6px; white-space: nowrap;
+  }
+  .nav-city-group button:hover { color: white; background: rgba(255,255,255,.08); }
+
+  /* Mobile Ruta accordion */
+  .mob-ruta-list { display: none; background: #0a0a0a; }
+  .mob-ruta-list.open { display: block; }
+  .mob-city-toggle {
+    font-size: 12px !important; padding: 12px 30px !important; text-transform: none !important;
+    letter-spacing: 0 !important; font-weight: 600 !important; color: #aaa !important;
+  }
+  .mob-city-sub { display: none; background: #050505; }
+  .mob-city-sub.open { display: block; }
+  .mob-city-sub button {
+    padding: 10px 40px !important; font-size: 11px !important; text-transform: none !important;
+    font-weight: 500 !important; color: #888 !important;
+  }
+
+  [id^="day-"], [id^="aloj-"] { scroll-margin-top: 72px; }
+
   @media(max-width: 720px) {
     .topnav-links { display: none; }
     .hamburger-btn { display: block; }
@@ -249,7 +292,7 @@
   .lineup-wrap { padding: 8px 16px 40px; text-align: center; }
   .lineup-title { color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; }
   .pitch {
-    max-width: 480px; margin: 0 auto; border-radius: 16px; padding: 34px 10px;
+    max-width: 600px; margin: 0 auto; border-radius: 16px; padding: 34px 10px;
     background: repeating-linear-gradient(180deg, #2d7d3f 0px, #2d7d3f 40px, #266e37 40px, #266e37 80px);
     border: 3px solid rgba(255,255,255,0.65); position: relative; box-shadow: var(--sombra);
   }
@@ -270,8 +313,8 @@
   .goal-mouth.bottom { bottom: -3px; border-bottom: none; }
   .lineup-row { display: flex; justify-content: center; gap: 14px; margin-bottom: 18px; position: relative; z-index: 2; flex-wrap: wrap; }
   .lineup-row:last-child { margin-bottom: 4px; }
-  .player { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 62px; }
-  .player-photo { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+  .player { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 92px; }
+  .player-photo { width: 82px; height: 82px; border-radius: 50%; object-fit: cover; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
   .player-name { font-size: 10px; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.6); background: rgba(0,0,0,0.35); padding: 1px 6px; border-radius: 8px; }
 
   .timeline-wrap { background: var(--negro); padding: 30px 0 0; border-radius: 20px; margin-top: 30px; }
@@ -363,8 +406,8 @@
     .vuelo-card { flex-direction: column; gap: 6px; }
     .gastos-table th:nth-child(3), .gastos-table td:nth-child(3) { display: none; }
     .slider-track img { height: 280px; }
-    .player { width: 48px; }
-    .player-photo { width: 42px; height: 42px; }
+    .player { width: 62px; }
+    .player-photo { width: 56px; height: 56px; }
     .player-name { font-size: 9px; }
     .lineup-row { gap: 8px; }
   }
@@ -377,7 +420,37 @@
   <div class="topnav-links">
     <button onclick="showPage('portada')" data-nav="portada">Home</button>
     <button onclick="showPage('nosotros')" data-nav="nosotros">Nosotros</button>
-    <button onclick="showPage('medellin')" data-nav="ruta">Ruta</button>
+    <div class="nav-dropdown">
+      <button class="nav-drop-trigger" data-nav="ruta">Ruta</button>
+      <div class="nav-submenu">
+        <div class="nav-city-group">
+          <div class="nav-city-label">Medellín</div>
+          <button onclick="goToAnchor('medellin','aloj-medellin')">🏠 Alojamiento</button>
+          <button onclick="goToAnchor('medellin','day-jul24')">☀️ Día</button>
+          <button onclick="goToAnchor('medellin','day-jul24-noche')">🌙 Noche</button>
+        </div>
+        <div class="nav-city-group">
+          <div class="nav-city-label">Cartagena (llegada)</div>
+          <button onclick="goToAnchor('cartagena1','aloj-cartagena1')">🏠 Alojamiento</button>
+          <button onclick="goToAnchor('cartagena1','day-jul25')">🌙 Noche</button>
+        </div>
+        <div class="nav-city-group">
+          <div class="nav-city-label">Casa en el Agua</div>
+          <button onclick="goToAnchor('casaagua','day-jul26')">🏠 Alojamiento</button>
+        </div>
+        <div class="nav-city-group">
+          <div class="nav-city-label">Santa Marta</div>
+          <button onclick="goToAnchor('santamarta','aloj-santamarta')">🏠 Alojamiento</button>
+          <button onclick="goToAnchor('santamarta','day-jul29')">☀️ Día</button>
+          <button onclick="goToAnchor('santamarta','aloj-brisaloca')">🌙 Noche</button>
+        </div>
+        <div class="nav-city-group">
+          <div class="nav-city-label">Cartagena (cierre)</div>
+          <button onclick="goToAnchor('cartagena2','day-jul31')">🏠 Alojamiento</button>
+          <button onclick="goToAnchor('cartagena2','day-ago1')">🌙 Noche</button>
+        </div>
+      </div>
+    </div>
     <button onclick="showPage('financiamiento')" data-nav="financiamiento">Financiamiento</button>
   </div>
   <button class="hamburger-btn" id="hamburger-btn" aria-label="Menu">&#9776;</button>
@@ -388,7 +461,45 @@
   <button class="mobile-close" id="mobile-close">&#10005;</button>
   <button onclick="showPage('portada')" data-nav="portada">Inicio</button>
   <button onclick="showPage('nosotros')" data-nav="nosotros">Nosotros</button>
-  <button onclick="showPage('medellin')" data-nav="ruta">Ruta</button>
+  <button data-nav="ruta" onclick="document.getElementById('mob-ruta-list').classList.toggle('open')">Ruta ▾</button>
+  <div class="mob-ruta-list" id="mob-ruta-list">
+    <div class="mob-city">
+      <button class="mob-city-toggle" onclick="this.nextElementSibling.classList.toggle('open')">Medellín ▾</button>
+      <div class="mob-city-sub">
+        <button onclick="goToAnchor('medellin','aloj-medellin')">Alojamiento</button>
+        <button onclick="goToAnchor('medellin','day-jul24')">Día</button>
+        <button onclick="goToAnchor('medellin','day-jul24-noche')">Noche</button>
+      </div>
+    </div>
+    <div class="mob-city">
+      <button class="mob-city-toggle" onclick="this.nextElementSibling.classList.toggle('open')">Cartagena (llegada) ▾</button>
+      <div class="mob-city-sub">
+        <button onclick="goToAnchor('cartagena1','aloj-cartagena1')">Alojamiento</button>
+        <button onclick="goToAnchor('cartagena1','day-jul25')">Noche</button>
+      </div>
+    </div>
+    <div class="mob-city">
+      <button class="mob-city-toggle" onclick="this.nextElementSibling.classList.toggle('open')">Casa en el Agua ▾</button>
+      <div class="mob-city-sub">
+        <button onclick="goToAnchor('casaagua','day-jul26')">Alojamiento</button>
+      </div>
+    </div>
+    <div class="mob-city">
+      <button class="mob-city-toggle" onclick="this.nextElementSibling.classList.toggle('open')">Santa Marta ▾</button>
+      <div class="mob-city-sub">
+        <button onclick="goToAnchor('santamarta','aloj-santamarta')">Alojamiento</button>
+        <button onclick="goToAnchor('santamarta','day-jul29')">Día</button>
+        <button onclick="goToAnchor('santamarta','aloj-brisaloca')">Noche</button>
+      </div>
+    </div>
+    <div class="mob-city">
+      <button class="mob-city-toggle" onclick="this.nextElementSibling.classList.toggle('open')">Cartagena (cierre) ▾</button>
+      <div class="mob-city-sub">
+        <button onclick="goToAnchor('cartagena2','day-jul31')">Alojamiento</button>
+        <button onclick="goToAnchor('cartagena2','day-ago1')">Noche</button>
+      </div>
+    </div>
+  </div>
   <button onclick="showPage('financiamiento')" data-nav="financiamiento">Financiamiento</button>
 </div>
 
@@ -468,7 +579,7 @@
       <div class="cd-box"><span class="cd-num" id="cd-m">--</span><span class="cd-lbl">min</span></div>
       <div class="cd-box"><span class="cd-num" id="cd-s">--</span><span class="cd-lbl">seg</span></div>
     </div>
-    <button class="big-btn" onclick="showPage('nosotros')">🇨🇴 Vamos pa' allá &mdash; Entrá al viaje</button>
+    <button class="big-btn" onclick="showPage('nosotros')">Vamo pa i - mostrame el viaje MANOO</button>
   </div>
 </section>
 </div>
@@ -555,23 +666,15 @@
   </div>
 
   <div class="container" style="max-width:700px;text-align:center;padding-bottom:20px;">
-    <button class="big-btn" onclick="showPage('medellin')">Vamos, contame de Medellín →</button>
+    <p style="font-size:19px;font-weight:800;color:var(--negro);margin-bottom:16px;">¿Sabías que primero vamos a Medellín? 🏙️</p>
+    <button class="big-btn" onclick="showPage('medellin')">Mira donde nos quedamos, tarado. Si, apretá este mismo botón que estás leyendo nabo.</button>
   </div>
 </div>
 
 <!-- ============ PAGE 3: MEDELLIN ============ -->
 <div class="page" id="page-medellin">
   <button class="atras-btn" onclick="showPage('nosotros')">&larr; Atrás</button>
-  <div class="page-hero">
-    <h2>¿Sabías que primero vamos a Medellín? 🏙️</h2>
-    <p>Mira donde nos quedamos, tarado. Si apretás este mismo botón que estás leyendo.</p>
-  </div>
-  <div class="container">
-    <button class="reveal-btn" id="btn-reveal-medellin" onclick="toggleReveal('medellin-content', this)">🏠 Mostrame dónde duermo en Medellín</button>
-  </div>
-
-  <div id="medellin-content" style="display:none;">
-  <section id="medellin" style="background:#e8f7ff;padding-top:0;">
+  <section id="medellin" style="background:#e8f7ff;">
     <div class="container">
 
       <h3 style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#888;margin:8px 0 10px;">✈️ Cómo llegamos</h3>
@@ -592,7 +695,7 @@
       </div>
       <div class="warn-box mt8">🧳 Solo carry-on incluido (1×10 kg).</div>
 
-      <div class="card mt16">
+      <div class="card mt16" id="aloj-medellin">
         <div class="slider" id="sl-medellin">
           <div class="slider-track" id="sl-medellin-track"></div>
           <button class="slider-btn slider-prev" onclick="slide('sl-medellin',-1)">‹</button>
@@ -609,6 +712,7 @@
             <div class="info-pill"><strong>Habitaciones</strong>6 (todas cama king)</div>
             <div class="info-pill"><strong>Baños</strong>6</div>
             <div class="info-pill"><strong>Extras</strong>Piscina climatizada · TV 85''</div>
+            <div class="info-pill"><strong>Costo</strong>USD 128 / persona (2 noches)</div>
           </div>
           <div class="accordion mt16">
             <div class="acc-item">
@@ -632,7 +736,8 @@
         </div>
       </div>
 
-      <div class="sec-header" style="padding-top:24px;"><div class="sec-flag"></div><div><div class="sec-title" style="font-size:22px;">Movida en Medellín</div><div class="sec-sub">Los boliches del viaje</div></div></div>
+      <p style="font-size:19px;font-weight:800;text-align:center;color:var(--negro);margin-top:32px;">¿A dónde podemos salir en Medallo? 🤔</p>
+      <div class="sec-header" style="padding-top:12px;"><div class="sec-flag"></div><div><div class="sec-title" style="font-size:22px;">Movida en Medellín</div><div class="sec-sub">Los boliches del viaje</div></div></div>
 
       <div class="card">
         <div class="slider" id="sl-boliche-sci">
@@ -742,31 +847,6 @@
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-body">
-          <span class="card-badge badge-mde">Medellín</span>
-          <div class="card-title">Itinerario tentativo</div>
-          <div class="card-dates">Jue 23 Jul → Sáb 25 Jul | Airbnb en El Poblado · aún no cerrado, ida y vuelta</div>
-          <div class="card-text">Llegamos a las 19:34 desde CTG. Tiempo justo para cambiarse y salir. Los jueves son electrónica en SCI. Nada de esto está 100% definido — es la base para ir armando el resto en el grupo.</div>
-          <div class="info-row">
-            <div class="info-pill"><strong>Zona</strong>El Poblado (la mejor)</div>
-            <div class="info-pill"><strong>Costo alojamiento</strong>USD 128 / persona (2 noches)</div>
-            <div class="info-pill"><strong>Vuelo de salida</strong>Sáb 25 · 18:25 → estar 16:30 en aeropuerto</div>
-          </div>
-          <div style="background:white;border-radius:12px;overflow:hidden;margin-top:14px;border:1px solid var(--gris2);">
-            <table class="gastos-table">
-              <thead><tr><th>Momento</th><th>Plan tentativo</th><th>Costo aprox / pp</th></tr></thead>
-              <tbody>
-                <tr><td>Jue 23 noche</td><td>Pre en Provenza + Miranda (alt. Perro Negro)</td><td>Cover ~20.000-30.000 COP</td></tr>
-                <tr><td>Vie 24 día</td><td>Comuna 13 y/o Guatapé (opcional)</td><td>USD 10-45 según tour</td></tr>
-                <tr><td>Vie 24 noche</td><td>Pre en Provenza + SCI (alt. cierre Dulcinea)</td><td>Cover ~50.000 COP</td></tr>
-                <tr><td>Sáb 25</td><td>Mañana libre / compras, vuelo 18:25</td><td>—</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
       <div id="day-jul23" class="card">
         <div class="card-body">
           <div class="card-title">🍹 Jueves 23 — Noche de aterrizaje</div>
@@ -824,7 +904,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div id="day-jul24-noche" class="card">
         <div class="card-body">
           <div class="card-title">🔥 Viernes 24 — Noche pesada</div>
           <div class="card-text">Ya descansados, es viernes, es la última noche antes de irse a Cartagena. Acá se le da con todo.</div>
@@ -846,7 +926,6 @@
       </div>
     </div>
   </section>
-  </div>
 
   <div class="container" style="max-width:700px;text-align:center;">
     <button class="big-btn rojo" onclick="showPage('cartagena1')">Y de acá nos vamos a hacer el primer reconocimiento a Cartagena. Picamos, un ratito y nos vamos →</button>
@@ -858,7 +937,6 @@
   <button class="atras-btn" onclick="showPage('medellin')">&larr; Atrás</button>
   <div class="page-hero">
     <h2>Cartagena — primer paso 🌴</h2>
-    <p>¿Te gustó Medellín? Bueno pero nos tenemos que ir porque hay una casa, que es en el agua. Si un viaje mal.</p>
   </div>
   <section id="cartagena1" style="padding-top:0;">
     <div class="container">
@@ -870,7 +948,7 @@
         <div class="vuelo-info">1h 12m</div>
       </div>
 
-      <div class="card mt16">
+      <div class="card mt16" id="aloj-cartagena1">
         <div class="slider" id="sl-ctg1">
           <div class="slider-track" id="sl-ctg1-track"></div>
           <button class="slider-btn slider-prev" onclick="slide('sl-ctg1',-1)">‹</button>
@@ -909,12 +987,35 @@
         </div>
       </div>
 
-      <div class="nota-destacada">Sí pajero, apretá el botón.</div>
+      <div class="card">
+        <div class="slider" id="sl-boliche-babilla-ctg1">
+          <div class="slider-track" id="sl-boliche-babilla-ctg1-track"></div>
+          <button class="slider-btn slider-prev" onclick="slide('sl-boliche-babilla-ctg1',-1)">‹</button>
+          <button class="slider-btn slider-next" onclick="slide('sl-boliche-babilla-ctg1',1)">›</button>
+          <div class="slider-dots" id="sl-boliche-babilla-ctg1-dots"></div>
+        </div>
+        <div class="card-body">
+          <span class="card-badge badge-ctg">Cartagena</span>
+          <div class="card-title">Mister Babilla</div>
+          <div class="card-text">Clásico de Cartagena hace más de 30 años. Estilo tropical caribeño. Su marca registrada: la gente baila sobre las mesas, sillas y hasta la barra.</div>
+          <div class="boliche-tags">
+            <span class="boliche-tag">🎵 Crossover: salsa, vallenato, reggaetón</span>
+            <span class="boliche-tag">📍 Calle del Arsenal, Getsemaní</span>
+            <span class="boliche-tag">🎉 Ambiente turístico, desmadre garantizado</span>
+            <span class="boliche-tag">👥 Ideal para grupos grandes</span>
+            <span class="boliche-tag">💰 Con entrada · desde ~7.000-30.000 COP (~USD 2-8) · mujeres gratis antes de las 21:00</span>
+          </div>
+          <a class="ig-btn" href="https://instagram.com/mister_babilla_cartagena" target="_blank" rel="noopener">📷 @mister_babilla_cartagena</a>
+        </div>
+      </div>
+
+      <p class="card-text" style="text-align:center;max-width:600px;margin:24px auto 0;font-size:16px;">¿Te gustó Medellín? Bueno pero nos tenemos que ir porque hay una casa, que es en el agua. Si un viaje mal.</p>
     </div>
   </section>
 
   <div class="container" style="max-width:700px;text-align:center;">
     <button class="big-btn" onclick="showPage('casaagua')">Pero sabes qué? Vamo pa i ñeri jaja →</button>
+    <div class="nota-destacada">Sí pajero, apretá el botón.</div>
   </div>
 </div>
 
@@ -996,7 +1097,9 @@
     <div class="container">
       <div class="sec-header"><div class="sec-flag"></div><div><div class="sec-title" style="font-size:22px;">28 – 31 Julio · 3 noches</div></div></div>
 
-      <div id="day-jul28" class="card mt16">
+      <p class="card-text" style="text-align:center;max-width:640px;margin:8px auto 20px;font-size:16px;">En Santa Marta vamos a dormir las 2 primeras noches en el hostel Masaya, todos juntos, habitación de 14, olor a huevo, CONTRAGLOPEEEEEEE. Casa colonial en el centro histórico, cama en dormitorio de 14 personas con desayuno incluido. Piscina, buen ambiente, a pasos del Malecón.</p>
+
+      <div id="aloj-santamarta" class="card">
         <div class="slider" id="sl-masaya">
           <div class="slider-track" id="sl-masaya-track"></div>
           <button class="slider-btn slider-prev" onclick="slide('sl-masaya',-1)">‹</button>
@@ -1007,7 +1110,6 @@
           <span class="card-badge badge-smt">Santa Marta</span>
           <div class="card-title">Hostal Masaya Santa Marta</div>
           <div class="card-dates">Mar 28 → Jue 30 Jul | Confirmación #2964791597343</div>
-          <div class="card-text">En Santa Marta vamos a dormir las 2 primeras noches en el hostel Masaya, todos juntos, habitación de 14, olor a huevo, CONTRAGLOPEEEEEEE. Casa colonial en el centro histórico, cama en dormitorio de 14 personas con desayuno incluido. Piscina, buen ambiente, a pasos del Malecón.</div>
           <div class="info-row">
             <div class="info-pill"><strong>Tipo</strong>Dorm 14p · Desayuno incluido</div>
             <div class="info-pill"><strong>Costo</strong>~USD 36 / persona (2 noches)</div>
@@ -1076,10 +1178,10 @@
       </div>
 
       <div class="card-body" style="padding:20px 16px 4px;">
-        <p class="card-text">Y bueno la última noche, llegaditos de toda la gira del catamarán anclaremos y bajaremos a tierra con un estado muy alegre para irnos a dormir la última noche al hostel que desde un principio quisimos, al mismísimo Brisa Loca.</p>
+        <p class="card-text">Y bueno la última noche, llegaditos de toda la gira del catamarán anclaremos y bajaremos a tierra con un estado muy alegre para cambiar de hospedaje la última noche al hostel que desde un principio quisimos, al mismísimo Brisa Loca.</p>
       </div>
 
-      <div class="card">
+      <div class="card" id="aloj-brisaloca">
         <div class="slider" id="sl-brisaloca">
           <div class="slider-track" id="sl-brisaloca-track"></div>
           <button class="slider-btn slider-prev" onclick="slide('sl-brisaloca',-1)">‹</button>
@@ -1142,24 +1244,6 @@
           </div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-body">
-          <span class="card-badge badge-ctg">Cartagena</span>
-          <div class="card-title">Itinerario tentativo</div>
-          <div class="card-dates">Vie 31 Jul → Sáb 1 Ago | aún no cerrado</div>
-          <div class="card-text">Acá es donde el grupo sale fuerte antes de volver. Nada 100% definido — es la base para ir armando el resto.</div>
-          <div style="background:white;border-radius:12px;overflow:hidden;margin-top:14px;border:1px solid var(--gris2);">
-            <table class="gastos-table">
-              <thead><tr><th>Momento</th><th>Plan tentativo</th><th>Costo aprox / pp</th></tr></thead>
-              <tbody>
-                <tr><td>Vie 31 noche</td><td>Donde Fidel → Café Havana</td><td>Gratis + ~55.000-60.000 COP</td></tr>
-                <tr><td>Sáb 1 noche</td><td>La Movida (cierre opcional Babilla/Havana)</td><td>~70.000-90.000 COP</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
       <div class="sec-header" style="padding-top:24px;"><div class="sec-flag"></div><div><div class="sec-title" style="font-size:22px;">Y bueno acá les dejo un poco lo que es la movida para que podamos elegir</div><div class="sec-sub">Las noches fuertes del cierre del viaje</div></div></div>
 
       <div class="card">
@@ -1318,9 +1402,8 @@
         <div><div class="sec-title" style="color:white;">Por persona</div><div class="sec-sub" style="color:#888;">3.900 COP = 1 USD</div></div>
       </div>
       <div style="background:#1a1a1a;border-radius:14px;padding:16px 18px;margin-top:14px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;">
-        <div><div style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Total ya pagado</div><div style="color:#28a745;font-weight:800;font-size:20px;">~$1.113</div></div>
-        <div><div style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Reservas pendientes</div><div style="color:var(--turquesa);font-weight:800;font-size:20px;">~$268</div></div>
-        <div><div style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Estimado a gastar (extras)</div><div style="color:#f4a261;font-weight:800;font-size:20px;">~$300-400</div></div>
+        <div><div style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Total ya pagado (reservas)</div><div style="color:#28a745;font-weight:800;font-size:20px;">~$1.567</div></div>
+        <div><div style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Estimado a gastar en el viaje</div><div style="color:#f4a261;font-weight:800;font-size:20px;">~$560</div></div>
       </div>
       <div style="background:white;border-radius:16px;overflow:hidden;margin-top:20px;">
         <table class="gastos-table">
@@ -1345,20 +1428,21 @@
         <div style="text-align:right;"><div class="amount">~$1.567</div><div class="sub">USD por persona</div></div>
       </div>
       <div style="background:#1a1a1a;border-radius:14px;padding:18px;margin-top:14px;">
-        <p style="color:#888;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Extras a considerar (no incluido en reservas)</p>
+        <p style="color:#888;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Todo lo que gastamos aparte de las reservas</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;">
-          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Comidas diarias (8 días · según menú Brisa Loca)</div><div style="color:white;font-weight:700;">~USD 20-25/día</div></div>
-          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Casa en el Agua · consumo (2 días, aparte de comidas)</div><div style="color:white;font-weight:700;">~USD 50-60</div></div>
-          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Entradas boliches (Miranda, SCI, Babilla, Fidel+Havana, La Movida — 5 noches del itinerario tentativo)</div><div style="color:white;font-weight:700;">~USD 50-65</div></div>
-          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Uber / transfers (8 días)</div><div style="color:white;font-weight:700;">~USD 40-80</div></div>
-          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Tour Guatapé (opcional)</div><div style="color:white;font-weight:700;">~USD 40-45</div></div>
-          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Tour C13 (opcional, con guía)</div><div style="color:white;font-weight:700;">~USD 10-25</div></div>
+          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Comidas (desayuno+almuerzo+cena, 8 días)</div><div style="color:white;font-weight:700;">~USD 176</div></div>
+          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Casa en el Agua · consumo (2 días, aparte de comidas)</div><div style="color:white;font-weight:700;">~USD 55</div></div>
+          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Entradas boliches (Miranda, SCI, Babilla, Fidel+Havana, La Movida — 5 noches del itinerario)</div><div style="color:white;font-weight:700;">~USD 57</div></div>
+          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Tragos en boliches (~4-5 por noche, 5 noches)</div><div style="color:white;font-weight:700;">~USD 113</div></div>
+          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Cervezas de día (mín. 5/día, ~5 días)</div><div style="color:white;font-weight:700;">~USD 75</div></div>
+          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Uber / transfers (8 días)</div><div style="color:white;font-weight:700;">~USD 60</div></div>
+          <div style="background:#2a2a2a;border-radius:10px;padding:10px;"><div style="color:#aaa;font-size:11px;margin-bottom:3px;">Paseos del itinerario (Guatapé / C13, promedio)</div><div style="color:white;font-weight:700;">~USD 25</div></div>
         </div>
-        <p style="color:#666;font-size:11px;margin-top:10px;">Comidas calculadas con precios reales del menú de La Brisa Loca: desayuno ~$17.000 COP, almuerzo/cena ~$30.000 COP, cerveza ~$7.500 COP (≈ USD 4.5 / 8 / 2). 8 días de comida "por cuenta propia" = todos menos los 2 días de Casa en el Agua (que ya tienen su consumo estimado aparte).</p>
+        <p style="color:#666;font-size:11px;margin-top:10px;">Comidas calculadas con precios reales del menú de La Brisa Loca: desayuno ~$17.000 COP, almuerzo/cena ~$30.000 COP. Tragos ~USD 5 c/u, cervezas de día ~USD 3 c/u (10.000 COP). Este total ya incluye todo — si al final no hacen algún paseo o boliche, gastan menos.</p>
       </div>
       <div class="gastos-total-box" style="margin-top:14px;">
-        <div><div class="label">Estimado TOTAL del viaje por persona</div><div class="sub">Reservas + comidas/boliches/transfers · sin tours opcionales</div></div>
-        <div style="text-align:right;"><div class="amount">~$1.870 – 1.970</div><div class="sub">USD por persona (+ ~$50-70 si suman Guatapé/C13)</div></div>
+        <div><div class="label">Estimado TOTAL del viaje por persona</div><div class="sub">Reservas + comidas + boliches + tragos + cervezas + transfers + paseos</div></div>
+        <div style="text-align:right;"><div class="amount">~$2.100 – 2.200</div><div class="sub">USD por persona</div></div>
       </div>
       <p style="color:#888;font-size:12px;text-align:center;margin-top:16px;">Los números son aproximados. Algunos gastos pueden variar.</p>
     </div>
@@ -1607,6 +1691,16 @@ function showPage(id) {
   closeMobileMenu();
 }
 
+// ---- ANCHOR NAV (Ruta dropdown: Alojamiento / Dia / Noche) ----
+function goToAnchor(page, anchor) {
+  showPage(page);
+  closeMobileMenu();
+  setTimeout(() => {
+    const el = document.getElementById(anchor);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 60);
+}
+
 // ---- HAMBURGER / MOBILE MENU ----
 const hamburgerBtn = document.getElementById('hamburger-btn');
 const mobileMenu = document.getElementById('mobile-menu');
@@ -1673,6 +1767,7 @@ function initAll() {
   initSlider('sl-boliche-havana', ['boliche_havana_1']);
   initSlider('sl-boliche-movida', ['boliche_movida_1','boliche_movida_2']);
   initSlider('sl-boliche-babilla', ['boliche_babilla_1','boliche_babilla_2','boliche_babilla_3']);
+  initSlider('sl-boliche-babilla-ctg1', ['boliche_babilla_1','boliche_babilla_2','boliche_babilla_3']);
   if (IMGS['tamo_junto']) document.getElementById('img-tamo').src = IMGS['tamo_junto'];
   if (IMGS['portate_mal']) document.getElementById('img-portate').src = IMGS['portate_mal'];
   const lineup = ['foncho','tato','garza','cacha','urri','pako','lucio','toman','mague','joaco','cuyo'];
