@@ -240,6 +240,44 @@
   .player-photo { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
   .player-name { font-size: 10px; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.6); background: rgba(0,0,0,0.35); padding: 1px 6px; border-radius: 8px; }
 
+  [id^="day-"] { scroll-margin-top: 64px; }
+
+  /* CALENDARIO */
+  .cal-wrap { background: var(--cream); padding: 32px 16px 40px; }
+  .cal-title { text-align: center; color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+  .cal-months { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; max-width: 600px; margin: 0 auto; }
+  .cal-month { flex: 1; min-width: 260px; }
+  .cal-month-title { text-align: center; font-weight: 700; font-size: 13px; color: var(--dark); margin-bottom: 8px; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-dow { text-align: center; font-size: 10px; font-weight: 700; color: #999; padding-bottom: 4px; }
+  .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 12px; color: #ccc; background: var(--gray-light); }
+  .cal-day.empty { background: transparent; }
+  .cal-day.trip { cursor: pointer; color: white; font-weight: 700; border: 2px solid transparent; transition: transform .15s; }
+  .cal-day.trip:hover { transform: scale(1.1); }
+  .cal-day.trip.mde { background: #00b4d8; }
+  .cal-day.trip.ctg { background: var(--rojo, #CE1126); }
+  .cal-day.trip.cea { background: #2ec4b6; }
+  .cal-day.trip.smt { background: #f4a261; }
+  .cal-day.trip.fly { background: #666; }
+  .cal-day.trip.today-active { border-color: var(--dark); box-shadow: 0 0 0 2px white, 0 0 0 4px var(--dark); }
+  .cal-legend { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 18px; }
+  .cal-leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #666; }
+  .cal-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .cal-dot.mde { background: #00b4d8; }
+  .cal-dot.ctg { background: var(--rojo, #CE1126); }
+  .cal-dot.cea { background: #2ec4b6; }
+  .cal-dot.smt { background: #f4a261; }
+  .cal-dot.fly { background: #666; }
+
+  /* SECTION INDICATOR */
+  .section-indicator {
+    position: fixed; right: 10px; top: 50%; transform: translateY(-50%) rotate(180deg); z-index: 90;
+    writing-mode: vertical-rl; background: rgba(28,43,30,0.85); color: white; padding: 10px 7px;
+    border-radius: 10px; font-size: 11px; font-weight: 700; letter-spacing: 1px; box-shadow: var(--sombra);
+    transition: opacity .25s; opacity: 0; pointer-events: none;
+  }
+  .section-indicator.visible { opacity: 1; }
+
   /* UTILS */
   .mt8 { margin-top: 8px; }
   .mt16 { margin-top: 16px; }
@@ -274,6 +312,8 @@
   <a href="#gastos">Plata</a>
   <a href="#contactos">Contactos</a>
 </nav>
+
+<div class="section-indicator" id="section-indicator"></div>
 
 <!-- COVER -->
 <section id="cover">
@@ -353,6 +393,123 @@
       <div class="lineup-row">
         <div class="player"><img class="player-photo" id="pl-foncho" alt="Foncho"><span class="player-name">Foncho</span></div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDARIO -->
+<div class="cal-wrap">
+  <div class="container">
+    <p class="cal-title">Calendario del viaje — tocá un día para ir directo</p>
+    <div class="cal-months">
+      <div class="cal-month">
+        <div class="cal-month-title">Julio 2026</div>
+        <div class="cal-grid">
+          <div class="cal-dow">L</div>
+          <div class="cal-dow">M</div>
+          <div class="cal-dow">X</div>
+          <div class="cal-dow">J</div>
+          <div class="cal-dow">V</div>
+          <div class="cal-dow">S</div>
+          <div class="cal-dow">D</div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day">1</div>
+          <div class="cal-day">2</div>
+          <div class="cal-day">3</div>
+          <div class="cal-day">4</div>
+          <div class="cal-day">5</div>
+          <div class="cal-day">6</div>
+          <div class="cal-day">7</div>
+          <div class="cal-day">8</div>
+          <div class="cal-day">9</div>
+          <div class="cal-day">10</div>
+          <div class="cal-day">11</div>
+          <div class="cal-day">12</div>
+          <div class="cal-day">13</div>
+          <div class="cal-day">14</div>
+          <div class="cal-day">15</div>
+          <div class="cal-day">16</div>
+          <div class="cal-day">17</div>
+          <div class="cal-day">18</div>
+          <div class="cal-day">19</div>
+          <div class="cal-day">20</div>
+          <div class="cal-day">21</div>
+          <div class="cal-day">22</div>
+          <div class="cal-day trip mde" data-anchor="day-jul23">23</div>
+          <div class="cal-day trip mde" data-anchor="day-jul24">24</div>
+          <div class="cal-day trip ctg" data-anchor="day-jul25">25</div>
+          <div class="cal-day trip cea" data-anchor="day-jul26">26</div>
+          <div class="cal-day trip cea" data-anchor="day-jul26">27</div>
+          <div class="cal-day trip smt" data-anchor="day-jul28">28</div>
+          <div class="cal-day trip smt" data-anchor="day-jul29">29</div>
+          <div class="cal-day trip smt" data-anchor="day-jul30">30</div>
+          <div class="cal-day trip ctg" data-anchor="day-jul31">31</div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day empty"></div>
+        </div>
+      </div>
+      <div class="cal-month">
+        <div class="cal-month-title">Agosto 2026</div>
+        <div class="cal-grid">
+          <div class="cal-dow">L</div>
+          <div class="cal-dow">M</div>
+          <div class="cal-dow">X</div>
+          <div class="cal-dow">J</div>
+          <div class="cal-dow">V</div>
+          <div class="cal-dow">S</div>
+          <div class="cal-dow">D</div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day trip ctg" data-anchor="day-ago1">1</div>
+          <div class="cal-day trip fly" data-anchor="day-ago2">2</div>
+          <div class="cal-day trip fly" data-anchor="day-ago2">3</div>
+          <div class="cal-day">4</div>
+          <div class="cal-day">5</div>
+          <div class="cal-day">6</div>
+          <div class="cal-day">7</div>
+          <div class="cal-day">8</div>
+          <div class="cal-day">9</div>
+          <div class="cal-day">10</div>
+          <div class="cal-day">11</div>
+          <div class="cal-day">12</div>
+          <div class="cal-day">13</div>
+          <div class="cal-day">14</div>
+          <div class="cal-day">15</div>
+          <div class="cal-day">16</div>
+          <div class="cal-day">17</div>
+          <div class="cal-day">18</div>
+          <div class="cal-day">19</div>
+          <div class="cal-day">20</div>
+          <div class="cal-day">21</div>
+          <div class="cal-day">22</div>
+          <div class="cal-day">23</div>
+          <div class="cal-day">24</div>
+          <div class="cal-day">25</div>
+          <div class="cal-day">26</div>
+          <div class="cal-day">27</div>
+          <div class="cal-day">28</div>
+          <div class="cal-day">29</div>
+          <div class="cal-day">30</div>
+          <div class="cal-day">31</div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day empty"></div>
+          <div class="cal-day empty"></div>
+        </div>
+      </div>
+    </div>
+    <div class="cal-legend">
+      <span class="cal-leg-item"><span class="cal-dot mde"></span>Medellín</span>
+      <span class="cal-leg-item"><span class="cal-dot ctg"></span>Cartagena</span>
+      <span class="cal-leg-item"><span class="cal-dot cea"></span>Casa en el Agua</span>
+      <span class="cal-leg-item"><span class="cal-dot smt"></span>Santa Marta</span>
+      <span class="cal-leg-item"><span class="cal-dot fly"></span>Vuelos</span>
     </div>
   </div>
 </div>
@@ -587,7 +744,7 @@
 
     <div class="card">
       <div class="card-body">
-        <div class="card-title">🍹 Jueves 23 — Noche de aterrizaje</div>
+        <div id="day-jul23" class="card-title">🍹 Jueves 23 — Noche de aterrizaje</div>
         <div class="card-text">Llegan al Big Pool House a la noche molidos de vuelos (MVD-BOG-CTG-MDE, 18:15 aterrizan). No va SCI porque quema el jueves de electrónica para gente muy fresca — mejor guardarlo para el viernes.</div>
         <div class="accordion mt16">
           <div class="acc-item">
@@ -606,7 +763,7 @@
 
     <div class="card">
       <div class="card-body">
-        <div class="card-title">☀️ Viernes 24 — Actividades de día</div>
+        <div id="day-jul24" class="card-title">☀️ Viernes 24 — Actividades de día</div>
         <div class="card-text">Dos opciones. Se puede hacer una o las dos si se arranca temprano con C13 a las 9am y Guatapé al día siguiente (pero el vuelo es el sábado, así que todo el viernes).</div>
 
         <div class="accordion mt16">
@@ -695,7 +852,7 @@
 
     <div class="card">
       <div class="card-body">
-        <div class="card-title">🍺 Sábado 25 — Primera parada, arranque tropical</div>
+        <div id="day-jul25" class="card-title">🍺 Sábado 25 — Primera parada, arranque tropical</div>
         <div class="card-text">Llegan de Medellín (JetSmart JA5412), tienen la villa colonial en la Ciudad Amurallada. Duermen ahí una sola noche antes de irse a Casa en el Agua. Hay que aprovechar.</div>
         <div class="accordion mt16">
           <div class="acc-item">
@@ -711,7 +868,218 @@
       </div>
     </div>
 
-    <div class="sec-header" style="padding-top:24px;"><div class="sec-flag"></div><div><div class="sec-title" style="font-size:22px;">Movida en Cartagena</div><div class="sec-sub">Aplica tanto a la llegada como al cierre del viaje</div></div></div>
+</section>
+
+<!-- CASA EN EL AGUA -->
+<section id="casaagua" style="background:#d4f7f4;">
+  <div class="container">
+    <div class="sec-header"><div class="sec-flag"></div><div><div class="sec-title">Casa en el Agua</div><div class="sec-sub">26 – 28 Julio · 2 noches · Islas de San Bernardo</div></div></div>
+
+    <div class="card mt16">
+      <div class="slider" id="sl-casaagua">
+        <div class="slider-track" id="sl-casaagua-track"></div>
+        <button class="slider-btn slider-prev" onclick="slide('sl-casaagua',-1)">‹</button>
+        <button class="slider-btn slider-next" onclick="slide('sl-casaagua',1)">›</button>
+        <div class="slider-dots" id="sl-casaagua-dots"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-badge badge-cea">Casa en el Agua</span>
+        <div id="day-jul26" class="card-title">Hostel flotante en medio del Caribe 🌊</div>
+        <div class="card-dates">Dom 26 → Mar 28 Jul · Reserva #1747268960310 · ✅ Pagado</div>
+        <div class="card-text">Casa de madera construida sobre el agua en las Islas de San Bernardo. Sin tierra en ninguna dirección — solo mar, corales y atardeceres imposibles.</div>
+        <div class="info-row">
+          <div class="info-pill"><strong>Bote</strong>Tranq It Easy · ✅ pagado ($82 USD/pp)</div>
+          <div class="info-pill"><strong>Alojamiento</strong>USD 71 / persona (2 noches)</div>
+          <div class="info-pill"><strong>Desayuno</strong>Incluido · Todo lo demás se paga allá</div>
+        </div>
+        <div class="accordion mt16">
+          <div class="acc-item">
+            <button class="acc-btn" onclick="toggleAcc(this)">🚤 El viaje en bote <span class="acc-arrow">▼</span></button>
+            <div class="acc-body"><p><strong>Tranq It Easy Boats</strong> (+57 301 404 3633). Ya reservado y pagado. ~2 horas desde Cartagena. Límite de equipaje: <strong>8 kg por persona</strong>. Si son propensos al mareo, tomar algo antes del viaje.</p></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" onclick="toggleAcc(this)">💰 Precios internos <span class="acc-arrow">▼</span></button>
+            <div class="acc-body">
+              <p>✅ <strong>Incluido:</strong> desayuno, snorkel gratis desde el deck.</p>
+              <ul class="lista" style="margin-top:8px;">
+                <li>Almuerzo / cena: <strong>~30.000 COP (~USD 8)</strong></li>
+                <li>Cerveza: <strong>~10.000 COP (~USD 3)</strong></li>
+                <li>Cóctel: <strong>~30.000 COP (~USD 8)</strong></li>
+                <li>Kayak, SUP, wakeboard, subwing: extra</li>
+                <li>Tour plankton nocturno: extra — <strong>imperdible</strong></li>
+              </ul>
+              <p style="margin-top:8px;color:#c00;font-size:13px;"><strong>Presupuesten USD 40-60 por persona en 2 noches. Pagan con pulsera — liquidar al salir. Llevar efectivo en pesos colombianos.</strong></p>
+            </div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" onclick="toggleAcc(this)">📦 Qué llevar <span class="acc-arrow">▼</span></button>
+            <div class="acc-body">
+              <ul class="lista">
+                <li>Mochila máx. 8 kg</li>
+                <li>Efectivo en pesos colombianos (~300.000-400.000 COP/persona)</li>
+                <li>Protector solar biodegradable</li>
+                <li>Ropa de verano mínima — estarán en traje de baño todo el día</li>
+                <li>Cartas (UNO obligatorio 🃏)</li>
+                <li>Algo para el mareo si son propensos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SANTA MARTA -->
+<section id="santamarta" style="background:#fff7ed;">
+  <div class="container">
+    <div class="sec-header"><div class="sec-flag"></div><div><div class="sec-title">Santa Marta & Tayrona</div><div class="sec-sub">28 – 31 Julio · 3 noches · Masaya + La Brisa Loca</div></div></div>
+
+    <div class="card mt16">
+      <div class="slider" id="sl-masaya">
+        <div class="slider-track" id="sl-masaya-track"></div>
+        <button class="slider-btn slider-prev" onclick="slide('sl-masaya',-1)">‹</button>
+        <button class="slider-btn slider-next" onclick="slide('sl-masaya',1)">›</button>
+        <div class="slider-dots" id="sl-masaya-dots"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-badge badge-smt">Santa Marta</span>
+        <div id="day-jul28" class="card-title">Hostal Masaya Santa Marta</div>
+        <div class="card-dates">Mar 28 → Jue 30 Jul | Confirmación #2964791597343</div>
+        <div class="card-text">Casa colonial en el centro histórico, cama en dormitorio de 14 personas con desayuno incluido. Piscina, buen ambiente, a pasos del Malecón.</div>
+        <div class="info-row">
+          <div class="info-pill"><strong>Tipo</strong>Dorm 14p · Desayuno incluido</div>
+          <div class="info-pill"><strong>Costo</strong>~USD 36 / persona (2 noches)</div>
+          <div class="info-pill"><strong>Contacto</strong>+57 3115338348</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="slider" id="sl-brisaloca">
+        <div class="slider-track" id="sl-brisaloca-track"></div>
+        <button class="slider-btn slider-prev" onclick="slide('sl-brisaloca',-1)">‹</button>
+        <button class="slider-btn slider-next" onclick="slide('sl-brisaloca',1)">›</button>
+        <div class="slider-dots" id="sl-brisaloca-dots"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-badge badge-smt">Santa Marta</span>
+        <div class="card-title">La Brisa Loca Hostel</div>
+        <div class="card-dates">Jue 30 → Vie 31 Jul | Confirmación #6387421409</div>
+        <div class="card-text">Última noche en Santa Marta, en el centro histórico. Bar-resto propio con menú de comidas y tragos, buen ambiente de fiesta.</div>
+        <div class="info-row">
+          <div class="info-pill"><strong>Dirección</strong>Calle 14 # 3-58, Centro Histórico</div>
+          <div class="info-pill"><strong>Costo</strong>~USD 26 / persona (1 noche)</div>
+          <div class="info-pill"><strong>Contacto</strong>+57 317 5859598</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div id="day-jul29" class="card-title">🚤 Miércoles 29 — Lancha deportiva · 3 bahías</div>
+        <div class="card-dates">Cinto · Granate · Gayraca | 9am → 5pm | Operador: Taylor</div>
+        <div class="card-text">Recorrido por las 3 bahías más salvajes del Parque Tayrona en lancha deportiva.</div>
+        <div class="slider mt16" id="sl-lancha3bahias" style="border-radius:12px;">
+          <div class="slider-track" id="sl-lancha3bahias-track"></div>
+          <button class="slider-btn slider-prev" onclick="slide('sl-lancha3bahias',-1)">‹</button>
+          <button class="slider-btn slider-next" onclick="slide('sl-lancha3bahias',1)">›</button>
+          <div class="slider-dots" id="sl-lancha3bahias-dots"></div>
+        </div>
+        <div class="info-row">
+          <div class="info-pill"><strong>Total grupo</strong>2.700.000 COP (con 10% dto)</div>
+          <div class="info-pill"><strong>Por persona</strong>~245.455 COP · ~USD 63</div>
+        </div>
+        <div class="accordion mt16">
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)">🌊 Bahía Cinto <span class="acc-arrow">▼</span></button><div class="acc-body"><p>La más salvaje. Aguas profundas azul intenso. Sin turismo masivo. Parada larga.</p></div></div>
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)">🪸 Playa Granate <span class="acc-arrow">▼</span></button><div class="acc-body"><p>Piscina natural entre rocas, agua cristalina. El mejor spot para snorkel del recorrido.</p></div></div>
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)">🏖️ Bahía Gayraca <span class="acc-arrow">▼</span></button><div class="acc-body"><p>Playa amplia, árboles hasta la orilla. Ideal para bajar, caminar y comer antes de volver.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div id="day-jul30" class="card-title">⛵ Jueves 30 — Catamarán Filavia II · Bahía Concha</div>
+        <div class="card-dates">Bahía Concha | 9am → 5pm | Operador: Taylor</div>
+        <div class="card-text">Día completo en el Catamarán Filavia II. Bahía Concha a ~1h en catamarán (vs 3h si fuesen a Cinto). Aguas de tres colores, snorkel, sol en cubierta.</div>
+        <div class="slider mt16" id="sl-catamaranconcha" style="border-radius:12px;">
+          <div class="slider-track" id="sl-catamaranconcha-track"></div>
+          <button class="slider-btn slider-prev" onclick="slide('sl-catamaranconcha',-1)">‹</button>
+          <button class="slider-btn slider-next" onclick="slide('sl-catamaranconcha',1)">›</button>
+          <div class="slider-dots" id="sl-catamaranconcha-dots"></div>
+        </div>
+        <div class="info-row">
+          <div class="info-pill"><strong>Total grupo</strong>4.680.000 COP (con 10% dto)</div>
+          <div class="info-pill"><strong>Por persona</strong>~425.455 COP · ~USD 109</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title">💰 Resumen barcos — ambos días</div>
+        <div class="info-row">
+          <div class="info-pill"><strong>Total 2 días</strong>7.380.000 COP total</div>
+          <div class="info-pill"><strong>Por persona</strong>~USD 172</div>
+          <div class="info-pill"><strong>Incluye</strong>Tripulación · agua · snorkel · seguro · entradas</div>
+        </div>
+        <div class="warn-box mt8">💳 Seña 50% por transferencia a Taylor antes de la fecha. Operador: +57 320-615-5817</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARTAGENA 2da ESTADIA -->
+<section id="cartagena2">
+  <div class="container">
+    <div class="sec-header"><div class="sec-flag"></div><div><div class="sec-title">Cartagena — Cierre</div><div class="sec-sub">31 Julio – 2 Agosto · 2 noches · Ciudad Amurallada</div></div></div>
+
+    <div class="card mt16">
+      <div class="slider" id="sl-lillian">
+        <div class="slider-track" id="sl-lillian-track"></div>
+        <button class="slider-btn slider-prev" onclick="slide('sl-lillian',-1)">‹</button>
+        <button class="slider-btn slider-next" onclick="slide('sl-lillian',1)">›</button>
+        <div class="slider-dots" id="sl-lillian-dots"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-badge badge-ctg">Cartagena</span>
+        <div id="day-jul31" class="card-title">Lillian Barbara — 9 dormitorios · Jacuzzi · Billar</div>
+        <div class="card-dates">Vie 31 Jul → Dom 2 Ago | Ciudad Amurallada</div>
+        <div class="card-text">La casa grande del final del viaje. 9 dormitorios en suite, jacuzzi climatizado, mesa de billar. Explícitamente pensada para grupos y celebraciones.</div>
+        <div class="info-row">
+          <div class="info-pill"><strong>Config</strong>9 hab en suite · AC en todos</div>
+          <div class="info-pill"><strong>Extras</strong>Jacuzzi · Billar · Terraza</div>
+          <div class="info-pill"><strong>Costo</strong>USD 96 / persona (2 noches)</div>
+          <div class="info-pill"><strong>Anfitrión</strong>Cartagena Classics · 4.86★ · 222 reviews</div>
+        </div>
+        <div class="accordion mt16">
+          <div class="acc-item">
+            <button class="acc-btn" onclick="toggleAcc(this)">🎉 Zona de fiesta — Getsemaní <span class="acc-arrow">▼</span></button>
+            <div class="acc-body"><p>A 5-10 min caminando. Calle Media Luna, Calle del Arsenal y Plaza de la Trinidad son los ejes de la noche. Salís de la casa y estás en el centro de todo.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <span class="card-badge badge-ctg">Cartagena</span>
+        <div class="card-title">Itinerario tentativo</div>
+        <div class="card-dates">Vie 31 Jul → Sáb 1 Ago | aún no cerrado</div>
+        <div class="card-text">Acá es donde el grupo sale fuerte antes de volver. Nada 100% definido — es la base para ir armando el resto.</div>
+        <div style="background:white;border-radius:12px;overflow:hidden;margin-top:14px;border:1px solid var(--gris2);">
+          <table class="gastos-table">
+            <thead><tr><th>Momento</th><th>Plan tentativo</th><th>Costo aprox / pp</th></tr></thead>
+            <tbody>
+              <tr><td>Vie 31 noche</td><td>Donde Fidel → Café Havana</td><td>Gratis + ~55.000-60.000 COP</td></tr>
+              <tr><td>Sáb 1 noche</td><td>La Movida (cierre opcional Babilla/Havana)</td><td>~70.000-90.000 COP</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-header" style="padding-top:24px;"><div class="sec-flag"></div><div><div class="sec-title" style="font-size:22px;">Movida en Cartagena</div><div class="sec-sub">Las noches fuertes del cierre del viaje</div></div></div>
 
     <div class="card">
       <div class="slider" id="sl-boliche-fidel">
@@ -803,199 +1171,7 @@
       </div>
     </div>
   </div>
-</section>
 
-<!-- CASA EN EL AGUA -->
-<section id="casaagua" style="background:#d4f7f4;">
-  <div class="container">
-    <div class="sec-header"><div class="sec-flag"></div><div><div class="sec-title">Casa en el Agua</div><div class="sec-sub">26 – 28 Julio · 2 noches · Islas de San Bernardo</div></div></div>
-
-    <div class="card mt16">
-      <div class="slider" id="sl-casaagua">
-        <div class="slider-track" id="sl-casaagua-track"></div>
-        <button class="slider-btn slider-prev" onclick="slide('sl-casaagua',-1)">‹</button>
-        <button class="slider-btn slider-next" onclick="slide('sl-casaagua',1)">›</button>
-        <div class="slider-dots" id="sl-casaagua-dots"></div>
-      </div>
-      <div class="card-body">
-        <span class="card-badge badge-cea">Casa en el Agua</span>
-        <div class="card-title">Hostel flotante en medio del Caribe 🌊</div>
-        <div class="card-dates">Dom 26 → Mar 28 Jul · Reserva #1747268960310 · ✅ Pagado</div>
-        <div class="card-text">Casa de madera construida sobre el agua en las Islas de San Bernardo. Sin tierra en ninguna dirección — solo mar, corales y atardeceres imposibles.</div>
-        <div class="info-row">
-          <div class="info-pill"><strong>Bote</strong>Tranq It Easy · ✅ pagado ($82 USD/pp)</div>
-          <div class="info-pill"><strong>Alojamiento</strong>USD 71 / persona (2 noches)</div>
-          <div class="info-pill"><strong>Desayuno</strong>Incluido · Todo lo demás se paga allá</div>
-        </div>
-        <div class="accordion mt16">
-          <div class="acc-item">
-            <button class="acc-btn" onclick="toggleAcc(this)">🚤 El viaje en bote <span class="acc-arrow">▼</span></button>
-            <div class="acc-body"><p><strong>Tranq It Easy Boats</strong> (+57 301 404 3633). Ya reservado y pagado. ~2 horas desde Cartagena. Límite de equipaje: <strong>8 kg por persona</strong>. Si son propensos al mareo, tomar algo antes del viaje.</p></div>
-          </div>
-          <div class="acc-item">
-            <button class="acc-btn" onclick="toggleAcc(this)">💰 Precios internos <span class="acc-arrow">▼</span></button>
-            <div class="acc-body">
-              <p>✅ <strong>Incluido:</strong> desayuno, snorkel gratis desde el deck.</p>
-              <ul class="lista" style="margin-top:8px;">
-                <li>Almuerzo / cena: <strong>~30.000 COP (~USD 8)</strong></li>
-                <li>Cerveza: <strong>~10.000 COP (~USD 3)</strong></li>
-                <li>Cóctel: <strong>~30.000 COP (~USD 8)</strong></li>
-                <li>Kayak, SUP, wakeboard, subwing: extra</li>
-                <li>Tour plankton nocturno: extra — <strong>imperdible</strong></li>
-              </ul>
-              <p style="margin-top:8px;color:#c00;font-size:13px;"><strong>Presupuesten USD 40-60 por persona en 2 noches. Pagan con pulsera — liquidar al salir. Llevar efectivo en pesos colombianos.</strong></p>
-            </div>
-          </div>
-          <div class="acc-item">
-            <button class="acc-btn" onclick="toggleAcc(this)">📦 Qué llevar <span class="acc-arrow">▼</span></button>
-            <div class="acc-body">
-              <ul class="lista">
-                <li>Mochila máx. 8 kg</li>
-                <li>Efectivo en pesos colombianos (~300.000-400.000 COP/persona)</li>
-                <li>Protector solar biodegradable</li>
-                <li>Ropa de verano mínima — estarán en traje de baño todo el día</li>
-                <li>Cartas (UNO obligatorio 🃏)</li>
-                <li>Algo para el mareo si son propensos</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SANTA MARTA -->
-<section id="santamarta" style="background:#fff7ed;">
-  <div class="container">
-    <div class="sec-header"><div class="sec-flag"></div><div><div class="sec-title">Santa Marta & Tayrona</div><div class="sec-sub">28 – 31 Julio · 3 noches · Masaya + La Brisa Loca</div></div></div>
-
-    <div class="card mt16">
-      <div class="slider" id="sl-masaya">
-        <div class="slider-track" id="sl-masaya-track"></div>
-        <button class="slider-btn slider-prev" onclick="slide('sl-masaya',-1)">‹</button>
-        <button class="slider-btn slider-next" onclick="slide('sl-masaya',1)">›</button>
-        <div class="slider-dots" id="sl-masaya-dots"></div>
-      </div>
-      <div class="card-body">
-        <span class="card-badge badge-smt">Santa Marta</span>
-        <div class="card-title">Hostal Masaya Santa Marta</div>
-        <div class="card-dates">Mar 28 → Jue 30 Jul | Confirmación #2964791597343</div>
-        <div class="card-text">Casa colonial en el centro histórico, cama en dormitorio de 14 personas con desayuno incluido. Piscina, buen ambiente, a pasos del Malecón.</div>
-        <div class="info-row">
-          <div class="info-pill"><strong>Tipo</strong>Dorm 14p · Desayuno incluido</div>
-          <div class="info-pill"><strong>Costo</strong>~USD 36 / persona (2 noches)</div>
-          <div class="info-pill"><strong>Contacto</strong>+57 3115338348</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="slider" id="sl-brisaloca">
-        <div class="slider-track" id="sl-brisaloca-track"></div>
-        <button class="slider-btn slider-prev" onclick="slide('sl-brisaloca',-1)">‹</button>
-        <button class="slider-btn slider-next" onclick="slide('sl-brisaloca',1)">›</button>
-        <div class="slider-dots" id="sl-brisaloca-dots"></div>
-      </div>
-      <div class="card-body">
-        <span class="card-badge badge-smt">Santa Marta</span>
-        <div class="card-title">La Brisa Loca Hostel</div>
-        <div class="card-dates">Jue 30 → Vie 31 Jul | Confirmación #6387421409</div>
-        <div class="card-text">Última noche en Santa Marta, en el centro histórico. Bar-resto propio con menú de comidas y tragos, buen ambiente de fiesta.</div>
-        <div class="info-row">
-          <div class="info-pill"><strong>Dirección</strong>Calle 14 # 3-58, Centro Histórico</div>
-          <div class="info-pill"><strong>Costo</strong>~USD 26 / persona (1 noche)</div>
-          <div class="info-pill"><strong>Contacto</strong>+57 317 5859598</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-body">
-        <div class="card-title">🚤 Miércoles 29 — Lancha deportiva · 3 bahías</div>
-        <div class="card-dates">Cinto · Granate · Gayraca | 9am → 5pm | Operador: Taylor</div>
-        <div class="card-text">Recorrido por las 3 bahías más salvajes del Parque Tayrona en lancha deportiva.</div>
-        <div class="slider mt16" id="sl-lancha3bahias" style="border-radius:12px;">
-          <div class="slider-track" id="sl-lancha3bahias-track"></div>
-          <button class="slider-btn slider-prev" onclick="slide('sl-lancha3bahias',-1)">‹</button>
-          <button class="slider-btn slider-next" onclick="slide('sl-lancha3bahias',1)">›</button>
-          <div class="slider-dots" id="sl-lancha3bahias-dots"></div>
-        </div>
-        <div class="info-row">
-          <div class="info-pill"><strong>Total grupo</strong>2.700.000 COP (con 10% dto)</div>
-          <div class="info-pill"><strong>Por persona</strong>~245.455 COP · ~USD 63</div>
-        </div>
-        <div class="accordion mt16">
-          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)">🌊 Bahía Cinto <span class="acc-arrow">▼</span></button><div class="acc-body"><p>La más salvaje. Aguas profundas azul intenso. Sin turismo masivo. Parada larga.</p></div></div>
-          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)">🪸 Playa Granate <span class="acc-arrow">▼</span></button><div class="acc-body"><p>Piscina natural entre rocas, agua cristalina. El mejor spot para snorkel del recorrido.</p></div></div>
-          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)">🏖️ Bahía Gayraca <span class="acc-arrow">▼</span></button><div class="acc-body"><p>Playa amplia, árboles hasta la orilla. Ideal para bajar, caminar y comer antes de volver.</p></div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-body">
-        <div class="card-title">⛵ Jueves 30 — Catamarán Filavia II · Bahía Concha</div>
-        <div class="card-dates">Bahía Concha | 9am → 5pm | Operador: Taylor</div>
-        <div class="card-text">Día completo en el Catamarán Filavia II. Bahía Concha a ~1h en catamarán (vs 3h si fuesen a Cinto). Aguas de tres colores, snorkel, sol en cubierta.</div>
-        <div class="slider mt16" id="sl-catamaranconcha" style="border-radius:12px;">
-          <div class="slider-track" id="sl-catamaranconcha-track"></div>
-          <button class="slider-btn slider-prev" onclick="slide('sl-catamaranconcha',-1)">‹</button>
-          <button class="slider-btn slider-next" onclick="slide('sl-catamaranconcha',1)">›</button>
-          <div class="slider-dots" id="sl-catamaranconcha-dots"></div>
-        </div>
-        <div class="info-row">
-          <div class="info-pill"><strong>Total grupo</strong>4.680.000 COP (con 10% dto)</div>
-          <div class="info-pill"><strong>Por persona</strong>~425.455 COP · ~USD 109</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-body">
-        <div class="card-title">💰 Resumen barcos — ambos días</div>
-        <div class="info-row">
-          <div class="info-pill"><strong>Total 2 días</strong>7.380.000 COP total</div>
-          <div class="info-pill"><strong>Por persona</strong>~USD 172</div>
-          <div class="info-pill"><strong>Incluye</strong>Tripulación · agua · snorkel · seguro · entradas</div>
-        </div>
-        <div class="warn-box mt8">💳 Seña 50% por transferencia a Taylor antes de la fecha. Operador: +57 320-615-5817</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CARTAGENA 2da ESTADIA -->
-<section id="cartagena2">
-  <div class="container">
-    <div class="sec-header"><div class="sec-flag"></div><div><div class="sec-title">Cartagena — Cierre</div><div class="sec-sub">31 Julio – 2 Agosto · 2 noches · Ciudad Amurallada</div></div></div>
-
-    <div class="card mt16">
-      <div class="slider" id="sl-lillian">
-        <div class="slider-track" id="sl-lillian-track"></div>
-        <button class="slider-btn slider-prev" onclick="slide('sl-lillian',-1)">‹</button>
-        <button class="slider-btn slider-next" onclick="slide('sl-lillian',1)">›</button>
-        <div class="slider-dots" id="sl-lillian-dots"></div>
-      </div>
-      <div class="card-body">
-        <span class="card-badge badge-ctg">Cartagena</span>
-        <div class="card-title">Lillian Barbara — 9 dormitorios · Jacuzzi · Billar</div>
-        <div class="card-dates">Vie 31 Jul → Dom 2 Ago | Ciudad Amurallada</div>
-        <div class="card-text">La casa grande del final del viaje. 9 dormitorios en suite, jacuzzi climatizado, mesa de billar. Explícitamente pensada para grupos y celebraciones.</div>
-        <div class="info-row">
-          <div class="info-pill"><strong>Config</strong>9 hab en suite · AC en todos</div>
-          <div class="info-pill"><strong>Extras</strong>Jacuzzi · Billar · Terraza</div>
-          <div class="info-pill"><strong>Costo</strong>USD 96 / persona (2 noches)</div>
-          <div class="info-pill"><strong>Anfitrión</strong>Cartagena Classics · 4.86★ · 222 reviews</div>
-        </div>
-        <div class="accordion mt16">
-          <div class="acc-item">
-            <button class="acc-btn" onclick="toggleAcc(this)">🎉 Zona de fiesta — Getsemaní <span class="acc-arrow">▼</span></button>
-            <div class="acc-body"><p>A 5-10 min caminando. Calle Media Luna, Calle del Arsenal y Plaza de la Trinidad son los ejes de la noche. Salís de la casa y estás en el centro de todo.</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <div class="card">
       <div class="card-body">
@@ -1018,7 +1194,7 @@
 
     <div class="card">
       <div class="card-body">
-        <div class="card-title">👑 Sábado 1 — Última noche del viaje, cierre a lo grande</div>
+        <div id="day-ago1" class="card-title">👑 Sábado 1 — Última noche del viaje, cierre a lo grande</div>
         <div class="card-text">La despedida. Cartagena tiene que quedar picando. Lo mejor es irse a lo alto.</div>
         <div class="accordion mt16">
           <div class="acc-item">
@@ -1037,7 +1213,7 @@
 
     <div class="card">
       <div class="card-body">
-        <div class="card-title">✈️ Vuelta — Dom 2 Agosto</div>
+        <div id="day-ago2" class="card-title">✈️ Vuelta — Dom 2 Agosto</div>
         <div class="card-dates">CTG 17:25 → BOG → MVD 05:55 (lun 3)</div>
         <div class="card-text">Mañana libre el domingo antes de la salida. Estar en el aeropuerto antes de las 15:30.</div>
       </div>
@@ -1310,13 +1486,35 @@ function updateSlider(id) {
   dots.forEach((d, i) => d.classList.toggle('active', i === st.current));
 }
 
-// ---- NAV ACTIVE ----
+// ---- NAV ACTIVE + SECTION INDICATOR ----
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('nav a[href^="#"]');
+const sectionNames = {};
+navLinks.forEach(a => { sectionNames[a.getAttribute('href').slice(1)] = a.textContent; });
+const sectionIndicator = document.getElementById('section-indicator');
+
+const dayEls = Array.from(document.querySelectorAll('[id^="day-"]'));
+const calDays = document.querySelectorAll('.cal-day.trip');
+
 window.addEventListener('scroll', () => {
   let current = '';
   sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
   navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  if (current && sectionIndicator) {
+    sectionIndicator.textContent = sectionNames[current] || '';
+    sectionIndicator.classList.toggle('visible', current !== 'cover');
+  }
+
+  let currentDay = '';
+  dayEls.forEach(d => { if (window.scrollY >= d.offsetTop - 120) currentDay = d.id; });
+  calDays.forEach(c => c.classList.toggle('today-active', c.dataset.anchor === currentDay));
+});
+
+calDays.forEach(c => {
+  c.addEventListener('click', () => {
+    const target = document.getElementById(c.dataset.anchor);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 });
 
 // ---- INIT (called after images loaded) ----
