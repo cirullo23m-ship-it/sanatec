@@ -832,7 +832,7 @@
       <div id="day-jul23" class="card">
         <div class="card-body">
           <div class="card-title">🍹 Jueves 23 — Noche de aterrizaje</div>
-          <div class="card-text">Llegan al Big Pool House a la noche molidos de vuelos (MVD-BOG-CTG-MDE, 18:15 aterrizan). No va SCI porque quema el jueves de electrónica para gente muy fresca — mejor guardarlo para el viernes.</div>
+          <div class="card-text">Llegan al Big Pool House a la noche molidos de vuelos (MVD-BOG-CTG-MDE, 19:34 aterrizamos). No va SCI porque quema el jueves de electrónica para gente muy fresca — mejor guardarlo para el viernes.</div>
           <div class="accordion mt16">
             <div class="acc-item">
               <button class="acc-btn" onclick="toggleAcc(this)">📋 Plan sugerido <span class="acc-arrow">▼</span></button>
@@ -1854,6 +1854,8 @@ function toggleReveal(id, btn) {
 // ---- SLIDER ----
 const sliderState = {};
 
+const IMG_POS = { boliche_dulcinea_2: 'center 20%', boliche_miranda_3: 'center 15%' };
+
 function initSlider(id, imgKeys) {
   const track = document.getElementById(id + '-track');
   const dotsEl = document.getElementById(id + '-dots');
@@ -1865,6 +1867,7 @@ function initSlider(id, imgKeys) {
     const img = document.createElement('img');
     img.src = IMGS[k];
     img.alt = k;
+    if (IMG_POS[k]) img.style.objectPosition = IMG_POS[k];
     track.appendChild(img);
     const dot = document.createElement('div');
     dot.className = 'slider-dot' + (i===0?' active':'');
