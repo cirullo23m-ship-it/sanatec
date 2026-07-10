@@ -202,6 +202,7 @@
   .card-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
   .card-dates { font-size: 12px; color: #888; margin-bottom: 12px; font-weight: 500; }
   .card-text { font-size: 14px; line-height: 1.65; color: #444; }
+  .check-list { list-style: none; margin: 6px 0 0; padding: 0; font-size: 14px; line-height: 1.75; color: #444; }
   .info-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
   .info-pill { background: var(--gris2); border-radius: 8px; padding: 8px 12px; font-size: 12px; flex: 1; min-width: 130px; }
   .info-pill strong { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: .5px; color: #888; margin-bottom: 3px; }
@@ -347,6 +348,7 @@
   #cierre { padding: 60px 16px; text-align: center; background: var(--negro); border-radius: 20px; margin-top: 30px; }
   .cierre-imgs { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 32px; }
   .cierre-imgs img { width: 150px; height: 150px; object-fit: cover; border-radius: 14px; box-shadow: var(--sombra); }
+  .cierre-imgs img#img-portate { object-fit: contain; background: #1a1a1a; padding: 6px; }
   .cierre-title { font-size: clamp(24px, 6vw, 46px); font-weight: 900; color: white; margin-bottom: 10px; }
   .cierre-sub { font-size: 15px; color: #aaa; max-width: 500px; margin: 0 auto 24px; }
   .band-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; max-width: 600px; margin: 0 auto; }
@@ -1411,13 +1413,23 @@
         </div>
         <div class="card-body">
           <span class="card-badge badge-ctg">Cartagena</span>
-          <div class="card-title">Tour Islas del Rosario</div>
-          <div class="card-text">Un archipiélago de más de 20 islas frente a Cartagena, parte de un parque natural con arrecifes de coral. El paseo típico incluye recorrido en lancha entre las islas, parada para nadar/snorkel en aguas turquesas y tiempo libre en algún beach club antes de volver a la ciudad.</div>
-          <div class="card-text">Es la escapada de un día más elegida por los que se quedan una noche extra en Cartagena — perfecta para un sábado de sol antes de la vuelta.</div>
+          <div class="card-title">🏝️ Islas del Rosario — Sábado 1 de Agosto</div>
+          <div class="card-text">Un archipiélago de 27 islotes paradisíacos a 45 minutos de Cartagena. Aguas cristalinas, playas de arena blanca, arrecifes de coral. Parque Nacional desde 1977.</div>
+          <div class="card-text"><strong>Tour Top 3 islas:</strong> Pao Pao → Islabela → Bora Bora Beach Club</div>
+          <div class="card-text"><strong>Incluye:</strong></div>
+          <ul class="check-list">
+            <li>✅ Lancha deportiva (÷11 personas)</li>
+            <li>✅ 22+ cervezas frías</li>
+            <li>✅ 6 botellas alcohol fuerte (vodka, tequila, gin)</li>
+            <li>✅ Pollo asado, jamón, queso, pan</li>
+            <li>✅ Frutas tropicales (piña, papaya, melón, plátanos)</li>
+            <li>✅ Snacks (Lays, galletas, maní, chocolate)</li>
+            <li>✅ Agua, jugos, gaseosas, hielo</li>
+          </ul>
           <div class="info-row">
-            <div class="info-pill"><strong>Precio</strong>$540.000 COP / persona (~$145 USD)</div>
-            <div class="info-pill"><strong>Incluye</strong>3 cócteles + almuerzo + transporte + guía bilingüe</div>
-            <div class="info-pill"><strong>Duración</strong>~9 horas</div>
+            <div class="info-pill"><strong>Horarios</strong>Check-in 7:40 AM · Regreso ~17:00</div>
+            <div class="info-pill"><strong>Precio</strong>$357.018 COP / persona (~$92 USD)</div>
+            <div class="info-pill"><strong>Operador</strong>Islas del Rosario Tours (Juan Ballena)</div>
           </div>
         </div>
       </div>
@@ -1548,13 +1560,6 @@
     <div class="container">
       <div class="card">
         <div class="card-body">
-          <div class="card-title">✈️ Vuelta — Dom 2 Agosto</div>
-          <div class="card-dates">CTG 17:25 → BOG → MVD 05:55 (lun 3)</div>
-          <div class="card-text">Mañana libre el domingo antes de la salida. Estar en el aeropuerto antes de las 15:30.</div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
           <div class="card-title">✈️ Vuelo de retorno — Domingo 2 de agosto</div>
           <div class="card-dates">CTG 17:25 → BOG → MVD 05:55 (lunes 3 de agosto) · Avianca</div>
           <div class="card-text">Desde el checkout a las 11:00 AM hasta la salida del vuelo a las 17:25:</div>
@@ -1620,6 +1625,7 @@
         <div class="contacto-card"><div class="contacto-emoji">🚤</div><div class="contacto-nombre">Tranq It Easy</div><div class="contacto-rol">Bote → Casa en el Agua</div><a class="wa-btn" href="https://wa.me/573014043633" target="_blank">📱 +57 301-404-3633</a></div>
         <div class="contacto-card"><div class="contacto-emoji">🏨</div><div class="contacto-nombre">Hostal Masaya</div><div class="contacto-rol">Santa Marta</div><a class="wa-btn" href="https://wa.me/573115338348" target="_blank">📱 +57 3115338348</a></div>
         <div class="contacto-card"><div class="contacto-emoji">✈️</div><div class="contacto-nombre">Buemes Viajes</div><div class="contacto-rol">Agencia de viajes</div><a class="wa-btn" href="https://wa.me/59829021050" target="_blank">📱 005982 902 1050</a></div>
+        <div class="contacto-card"><div class="contacto-emoji">🏝️</div><div class="contacto-nombre">Juan Ballena</div><div class="contacto-rol">Lancha Islas del Rosario</div><a class="wa-btn" href="https://wa.me/573006308999" target="_blank">📱 +57 300-630-8999</a></div>
       </div>
     </div>
   </section>
