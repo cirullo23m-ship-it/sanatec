@@ -459,6 +459,75 @@
     width: 28px; height: 28px; font-size: 14px; cursor: pointer; color: #555;
   }
 
+  /* MI GASTO FAB + MODAL */
+  .gasto-fab {
+    position: fixed; right: 14px; bottom: 80px; z-index: 1095; width: 50px; height: 50px;
+    border-radius: 50%; border: none; background: var(--coral); color: white; font-size: 20px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .gasto-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1096; opacity: 0; pointer-events: none; transition: opacity .2s;
+  }
+  .gasto-overlay.open { opacity: 1; pointer-events: auto; }
+  .gasto-modal {
+    position: fixed; left: 50%; bottom: 0; transform: translate(-50%, 100%); width: min(94vw, 440px);
+    max-height: 88vh; overflow-y: auto; background: #FAFAF7; border-radius: 18px 18px 0 0; z-index: 1097;
+    padding: 20px 16px 26px; box-shadow: 0 -4px 24px rgba(0,0,0,0.3); transition: transform .28s cubic-bezier(.4,0,.2,1);
+  }
+  .gasto-modal.open { transform: translate(-50%, 0); }
+  .gasto-modal-close {
+    position: absolute; top: 10px; right: 14px; background: var(--gris2); border: none; border-radius: 50%;
+    width: 28px; height: 28px; font-size: 14px; cursor: pointer; color: #555;
+  }
+  .gasto-title { font-size: 19px; font-weight: 800; margin-bottom: 16px; padding-right: 26px; }
+  .gasto-add input, .gasto-add select {
+    width: 100%; padding: 11px 12px; border: 1px solid var(--gris2); border-radius: 10px;
+    font-size: 14px; font-family: inherit; margin-bottom: 9px; background: white; color: var(--texto);
+  }
+  .gasto-add-row { display: flex; gap: 8px; }
+  .gasto-add-row input { flex: 1; min-width: 0; }
+  .gasto-add-row select { width: 84px; flex-shrink: 0; }
+  .gasto-add-btn {
+    width: 100%; padding: 12px; border: none; border-radius: 10px; background: var(--coral); color: white;
+    font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 2px; transition: filter .15s;
+  }
+  .gasto-add-btn:active { filter: brightness(.92); }
+  .gasto-list-wrap { margin-top: 20px; }
+  .gasto-list-header {
+    display: flex; justify-content: space-between; font-size: 11px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .5px; color: #999; margin-bottom: 8px;
+  }
+  .gasto-list { list-style: none; margin: 0; padding: 0; max-height: 240px; overflow-y: auto; }
+  .gasto-item {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 0;
+    border-bottom: 1px solid var(--gris2); animation: gastoIn .22s ease;
+  }
+  .gasto-item.removing { animation: gastoOut .18s ease forwards; }
+  @keyframes gastoIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes gastoOut { to { opacity: 0; transform: translateX(24px); } }
+  .gasto-item-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+  .gasto-item-concepto { font-size: 14px; font-weight: 700; color: var(--texto); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .gasto-item-fecha { font-size: 11px; color: #999; }
+  .gasto-item-monto { font-size: 14px; font-weight: 800; color: var(--azul); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .gasto-item-del { background: none; border: none; color: #ccc; font-size: 16px; cursor: pointer; padding: 4px 2px 4px 6px; line-height: 1; flex-shrink: 0; }
+  .gasto-item-del:hover { color: var(--rojo); }
+  .gasto-empty { display: none; text-align: center; color: #999; font-size: 13px; padding: 22px 0; }
+  .gasto-empty.show { display: block; }
+  .gasto-totales { margin-top: 20px; background: var(--gris); border-radius: 12px; padding: 14px 16px; }
+  .gasto-total-row { display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; }
+  .gasto-total-row strong { font-variant-numeric: tabular-nums; }
+  .gasto-presupuesto { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ccc; font-size: 13px; font-weight: 700; text-align: center; }
+  .gasto-presupuesto.ok { color: #1a7a3c; }
+  .gasto-presupuesto.over { color: var(--rojo); }
+  .gasto-actions { display: flex; gap: 10px; margin-top: 18px; }
+  .gasto-btn-secondary, .gasto-btn-danger { flex: 1; padding: 10px; border-radius: 10px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .gasto-btn-secondary { background: var(--gris2); color: #333; }
+  .gasto-btn-danger { background: #ffe1e1; color: #a11; }
+  .gasto-privacidad { font-size: 11px; color: #999; text-align: center; margin-top: 16px; }
+  @media (max-width: 380px) {
+    .gasto-modal { padding: 18px 12px 22px; }
+  }
+
   /* UTILS */
   .mt8 { margin-top: 8px; }
   .mt16 { margin-top: 16px; }
@@ -574,6 +643,46 @@
 <div class="cal-popup" id="cal-popup">
   <button class="cal-popup-close" id="cal-popup-close">&#10005;</button>
   <div id="cal-popup-body"></div>
+</div>
+
+<button class="gasto-fab" id="gasto-fab" aria-label="Mi calculadora de gastos">🧮</button>
+<div class="gasto-overlay" id="gasto-overlay"></div>
+<div class="gasto-modal" id="gasto-modal">
+  <button class="gasto-modal-close" id="gasto-modal-close">&#10005;</button>
+  <div class="gasto-modal-body">
+    <h3 class="gasto-title">Mi Calculadora de Gastos 🧮</h3>
+
+    <div class="gasto-add">
+      <input type="text" id="gasto-concepto" placeholder="Concepto (ej: Cerveza, Comida, Entrada)" maxlength="40">
+      <div class="gasto-add-row">
+        <input type="number" id="gasto-monto" placeholder="Monto" inputmode="decimal" min="0" step="any">
+        <select id="gasto-moneda">
+          <option value="USD">USD</option>
+          <option value="COP">COP</option>
+        </select>
+      </div>
+      <button class="gasto-add-btn" id="gasto-add-btn">+ Agregar</button>
+    </div>
+
+    <div class="gasto-list-wrap">
+      <div class="gasto-list-header"><span>Historial</span><span id="gasto-count"></span></div>
+      <ul class="gasto-list" id="gasto-list"></ul>
+      <div class="gasto-empty" id="gasto-empty">Todavía no agregaste ningún gasto.</div>
+    </div>
+
+    <div class="gasto-totales">
+      <div class="gasto-total-row"><span>Total USD</span><strong id="gasto-total-usd">$0</strong></div>
+      <div class="gasto-total-row"><span>Total COP</span><strong id="gasto-total-cop">0 COP</strong></div>
+      <div class="gasto-presupuesto" id="gasto-presupuesto"></div>
+    </div>
+
+    <div class="gasto-actions">
+      <button class="gasto-btn-secondary" id="gasto-export-btn">📋 Exportar</button>
+      <button class="gasto-btn-danger" id="gasto-reset-btn">🗑️ Resetear</button>
+    </div>
+
+    <p class="gasto-privacidad">🔒 Estos datos se guardan solo en tu navegador — nadie más los ve.</p>
+  </div>
 </div>
 
 <!-- master calendar source, cloned into the popup on load -->
@@ -2049,6 +2158,128 @@ function renderPresupuesto() {
   if (gu) gu.textContent = presuFmtUSD(PRESU_DATA.grandTotalUSD);
   if (gc) gc.textContent = presuFmtCOP(PRESU_DATA.grandTotalCOP);
 }
+
+// ---- MI GASTO (calculadora personal, localStorage) ----
+const GASTO_RATE = 3315.17;
+const GASTO_KEY = 'colombia2026_gastos_v1';
+let gastoList = [];
+try { gastoList = JSON.parse(localStorage.getItem(GASTO_KEY) || '[]'); } catch(e) { gastoList = []; }
+
+function gastoSave() { try { localStorage.setItem(GASTO_KEY, JSON.stringify(gastoList)); } catch(e) {} }
+function gastoToUSD(monto, moneda) { return moneda === 'COP' ? monto / GASTO_RATE : monto; }
+function gastoFmtMonto(monto, moneda) { return moneda === 'COP' ? presuFmtCOP(Math.round(monto)) : presuFmtUSD(monto); }
+
+function gastoRender() {
+  const list = document.getElementById('gasto-list');
+  if (!list) return;
+  const empty = document.getElementById('gasto-empty');
+  const count = document.getElementById('gasto-count');
+  list.innerHTML = '';
+  count.textContent = gastoList.length ? gastoList.length + (gastoList.length === 1 ? ' gasto' : ' gastos') : '';
+  empty.classList.toggle('show', gastoList.length === 0);
+
+  gastoList.slice().reverse().forEach(g => {
+    const li = document.createElement('li');
+    li.className = 'gasto-item';
+    li.dataset.id = g.id;
+    const fecha = new Date(g.ts);
+    const fechaStr = fecha.toLocaleDateString('es-CO', {day:'2-digit',month:'2-digit'}) + ' ' + fecha.toLocaleTimeString('es-CO', {hour:'2-digit',minute:'2-digit'});
+    li.innerHTML = `
+      <div class="gasto-item-info">
+        <span class="gasto-item-concepto">${g.concepto}</span>
+        <span class="gasto-item-fecha">${fechaStr}</span>
+      </div>
+      <span class="gasto-item-monto">${gastoFmtMonto(g.monto, g.moneda)}</span>
+      <button class="gasto-item-del" aria-label="Eliminar gasto" data-id="${g.id}">✕</button>
+    `;
+    list.appendChild(li);
+  });
+
+  const totalUSD = gastoList.reduce((sum, g) => sum + gastoToUSD(g.monto, g.moneda), 0);
+  const totalCOP = totalUSD * GASTO_RATE;
+  document.getElementById('gasto-total-usd').textContent = presuFmtUSD(totalUSD);
+  document.getElementById('gasto-total-cop').textContent = presuFmtCOP(Math.round(totalCOP));
+
+  const presupuesto = PRESU_DATA.grandTotalUSD;
+  const diff = presupuesto - totalUSD;
+  const presEl = document.getElementById('gasto-presupuesto');
+  if (diff >= 0) {
+    presEl.textContent = `Te quedan ${presuFmtUSD(diff)} por gastar (de ${presuFmtUSD(presupuesto)})`;
+    presEl.className = 'gasto-presupuesto ok';
+  } else {
+    presEl.textContent = `¡Ya te pasaste ${presuFmtUSD(Math.abs(diff))} del presupuesto!`;
+    presEl.className = 'gasto-presupuesto over';
+  }
+}
+
+function gastoAdd() {
+  const conceptoEl = document.getElementById('gasto-concepto');
+  const montoEl = document.getElementById('gasto-monto');
+  const monedaEl = document.getElementById('gasto-moneda');
+  const concepto = conceptoEl.value.trim();
+  const monto = parseFloat(montoEl.value);
+  const moneda = monedaEl.value;
+  const valid = concepto && monto > 0;
+  conceptoEl.style.borderColor = concepto ? '' : 'var(--rojo)';
+  montoEl.style.borderColor = (monto > 0) ? '' : 'var(--rojo)';
+  if (!valid) return;
+  gastoList.push({ id: Date.now() + '-' + Math.random().toString(36).slice(2,7), concepto, monto, moneda, ts: Date.now() });
+  gastoSave();
+  gastoRender();
+  conceptoEl.value = '';
+  montoEl.value = '';
+  conceptoEl.focus();
+}
+
+function gastoDelete(id) {
+  const li = document.querySelector('.gasto-item[data-id="' + id + '"]');
+  const finish = () => { gastoList = gastoList.filter(g => g.id !== id); gastoSave(); gastoRender(); };
+  if (li) { li.classList.add('removing'); setTimeout(finish, 180); } else { finish(); }
+}
+
+function gastoReset() {
+  if (!confirm('¿Seguro que querés borrar todo tu historial de gastos? Esta acción no se puede deshacer.')) return;
+  gastoList = [];
+  gastoSave();
+  gastoRender();
+}
+
+function gastoExport() {
+  if (!gastoList.length) { alert('No hay gastos para exportar.'); return; }
+  const lines = gastoList.map(g => (new Date(g.ts).toLocaleString('es-CO')) + ' — ' + g.concepto + ': ' + gastoFmtMonto(g.monto, g.moneda));
+  const totalUSD = gastoList.reduce((sum, g) => sum + gastoToUSD(g.monto, g.moneda), 0);
+  lines.push('', 'TOTAL: ' + presuFmtUSD(totalUSD) + ' / ' + presuFmtCOP(Math.round(totalUSD * GASTO_RATE)));
+  const text = lines.join('\n');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => alert('Historial copiado al portapapeles ✅')).catch(() => prompt('Copiá tu historial:', text));
+  } else {
+    prompt('Copiá tu historial:', text);
+  }
+}
+
+const gastoFab = document.getElementById('gasto-fab');
+const gastoOverlay = document.getElementById('gasto-overlay');
+const gastoModal = document.getElementById('gasto-modal');
+const gastoModalClose = document.getElementById('gasto-modal-close');
+function openGastoModal() { gastoOverlay.classList.add('open'); gastoModal.classList.add('open'); gastoRender(); }
+function closeGastoModal() { gastoOverlay.classList.remove('open'); gastoModal.classList.remove('open'); }
+if (gastoFab) gastoFab.addEventListener('click', openGastoModal);
+if (gastoOverlay) gastoOverlay.addEventListener('click', closeGastoModal);
+if (gastoModalClose) gastoModalClose.addEventListener('click', closeGastoModal);
+document.addEventListener('click', (e) => {
+  const delBtn = e.target.closest('.gasto-item-del');
+  if (delBtn) gastoDelete(delBtn.dataset.id);
+});
+const gastoAddBtn = document.getElementById('gasto-add-btn');
+if (gastoAddBtn) gastoAddBtn.addEventListener('click', gastoAdd);
+const gastoMontoInput = document.getElementById('gasto-monto');
+if (gastoMontoInput) gastoMontoInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') gastoAdd(); });
+const gastoConceptoInput = document.getElementById('gasto-concepto');
+if (gastoConceptoInput) gastoConceptoInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); document.getElementById('gasto-monto').focus(); } });
+const gastoResetBtn = document.getElementById('gasto-reset-btn');
+if (gastoResetBtn) gastoResetBtn.addEventListener('click', gastoReset);
+const gastoExportBtn = document.getElementById('gasto-export-btn');
+if (gastoExportBtn) gastoExportBtn.addEventListener('click', gastoExport);
 
 // ---- INIT (called after images loaded) ----
 function initAll() {
