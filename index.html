@@ -492,12 +492,19 @@
     font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 2px; transition: filter .15s;
   }
   .gasto-add-btn:active { filter: brightness(.92); }
-  .gasto-list-wrap { margin-top: 20px; }
-  .gasto-list-header {
-    display: flex; justify-content: space-between; font-size: 11px; font-weight: 800; text-transform: uppercase;
-    letter-spacing: .5px; color: #999; margin-bottom: 8px;
+  .gasto-history { margin-top: 20px; border-top: 1px solid var(--gris2); border-bottom: 1px solid var(--gris2); }
+  .gasto-history-head {
+    all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between;
+    width: 100%; cursor: pointer; padding: 14px 2px;
   }
-  .gasto-list { list-style: none; margin: 0; padding: 0; max-height: 240px; overflow-y: auto; }
+  .gasto-history-title { font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: #777; }
+  .gasto-history-title #gasto-count { color: var(--coral); font-weight: 800; }
+  .gasto-history-chevron { width: 16px; height: 16px; color: #999; flex-shrink: 0; transition: transform .3s cubic-bezier(.4,0,.2,1); }
+  .gasto-history.open .gasto-history-chevron { transform: rotate(180deg); color: var(--coral); }
+  .gasto-history-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .32s cubic-bezier(.4,0,.2,1); }
+  .gasto-history.open .gasto-history-panel { grid-template-rows: 1fr; }
+  .gasto-history-panel-inner { overflow: hidden; }
+  .gasto-list { list-style: none; margin: 0; padding: 0 0 6px; max-height: 240px; overflow-y: auto; }
   .gasto-item {
     display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 0;
     border-bottom: 1px solid var(--gris2); animation: gastoIn .22s ease;
@@ -664,10 +671,17 @@
       <button class="gasto-add-btn" id="gasto-add-btn">+ Agregar</button>
     </div>
 
-    <div class="gasto-list-wrap">
-      <div class="gasto-list-header"><span>Historial</span><span id="gasto-count"></span></div>
-      <ul class="gasto-list" id="gasto-list"></ul>
-      <div class="gasto-empty" id="gasto-empty">Todavía no agregaste ningún gasto.</div>
+    <div class="gasto-history" id="gasto-history">
+      <button class="gasto-history-head" id="gasto-history-head" aria-expanded="false" aria-controls="gasto-history-panel">
+        <span class="gasto-history-title">📋 Historial (<span id="gasto-count">0 gastos</span>)</span>
+        <svg class="gasto-history-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="gasto-history-panel" id="gasto-history-panel">
+        <div class="gasto-history-panel-inner">
+          <ul class="gasto-list" id="gasto-list"></ul>
+          <div class="gasto-empty" id="gasto-empty">Todavía no agregaste ningún gasto.</div>
+        </div>
+      </div>
     </div>
 
     <div class="gasto-totales">
@@ -2175,7 +2189,7 @@ function gastoRender() {
   const empty = document.getElementById('gasto-empty');
   const count = document.getElementById('gasto-count');
   list.innerHTML = '';
-  count.textContent = gastoList.length ? gastoList.length + (gastoList.length === 1 ? ' gasto' : ' gastos') : '';
+  count.textContent = gastoList.length + (gastoList.length === 1 ? ' gasto' : ' gastos');
   empty.classList.toggle('show', gastoList.length === 0);
 
   gastoList.slice().reverse().forEach(g => {
@@ -2280,6 +2294,12 @@ const gastoResetBtn = document.getElementById('gasto-reset-btn');
 if (gastoResetBtn) gastoResetBtn.addEventListener('click', gastoReset);
 const gastoExportBtn = document.getElementById('gasto-export-btn');
 if (gastoExportBtn) gastoExportBtn.addEventListener('click', gastoExport);
+const gastoHistory = document.getElementById('gasto-history');
+const gastoHistoryHead = document.getElementById('gasto-history-head');
+if (gastoHistoryHead) gastoHistoryHead.addEventListener('click', () => {
+  const isOpen = gastoHistory.classList.toggle('open');
+  gastoHistoryHead.setAttribute('aria-expanded', String(isOpen));
+});
 
 // ---- INIT (called after images loaded) ----
 function initAll() {
