@@ -520,12 +520,10 @@
   .gasto-item-del:hover { color: var(--rojo); }
   .gasto-empty { display: none; text-align: center; color: #999; font-size: 13px; padding: 22px 0; }
   .gasto-empty.show { display: block; }
-  .gasto-totales { margin-top: 20px; background: var(--gris); border-radius: 12px; padding: 14px 16px; }
-  .gasto-total-row { display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; }
-  .gasto-total-row strong { font-variant-numeric: tabular-nums; }
-  .gasto-presupuesto { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ccc; font-size: 13px; font-weight: 700; text-align: center; }
-  .gasto-presupuesto.ok { color: #1a7a3c; }
-  .gasto-presupuesto.over { color: var(--rojo); }
+  .gasto-totales { margin-top: 20px; background: var(--gris); border-radius: 12px; padding: 18px 16px; text-align: center; }
+  .gasto-total-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .6px; color: #999; margin-bottom: 6px; }
+  .gasto-total-usd { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: clamp(28px, 9vw, 36px); color: var(--azul); line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .gasto-total-cop { font-size: 13px; color: #888; margin-top: 4px; font-variant-numeric: tabular-nums; }
   .gasto-actions { display: flex; gap: 10px; margin-top: 18px; }
   .gasto-btn-secondary, .gasto-btn-danger { flex: 1; padding: 10px; border-radius: 10px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; }
   .gasto-btn-secondary { background: var(--gris2); color: #333; }
@@ -685,9 +683,9 @@
     </div>
 
     <div class="gasto-totales">
-      <div class="gasto-total-row"><span>Total USD</span><strong id="gasto-total-usd">$0</strong></div>
-      <div class="gasto-total-row"><span>Total COP</span><strong id="gasto-total-cop">0 COP</strong></div>
-      <div class="gasto-presupuesto" id="gasto-presupuesto"></div>
+      <div class="gasto-total-label">Total gastado</div>
+      <div class="gasto-total-usd" id="gasto-total-usd">$0</div>
+      <div class="gasto-total-cop" id="gasto-total-cop">0 COP</div>
     </div>
 
     <div class="gasto-actions">
@@ -759,7 +757,7 @@
   <div class="cover-bg"></div>
   <div class="cover-overlay"></div>
   <div class="cover-content">
-    <p class="cover-eyebrow">23 Julio &mdash; 3 Agosto 2026</p>
+    <p class="cover-eyebrow">23 Julio &mdash; 2 Agosto 2026</p>
     <h1 class="cover-title">COLOMBIA<br>2026</h1>
     <p class="cover-sub">11 papis camino al país cafetero</p>
     <div class="countdown" id="countdown">
@@ -2213,17 +2211,6 @@ function gastoRender() {
   const totalCOP = totalUSD * GASTO_RATE;
   document.getElementById('gasto-total-usd').textContent = presuFmtUSD(totalUSD);
   document.getElementById('gasto-total-cop').textContent = presuFmtCOP(Math.round(totalCOP));
-
-  const presupuesto = PRESU_DATA.grandTotalUSD;
-  const diff = presupuesto - totalUSD;
-  const presEl = document.getElementById('gasto-presupuesto');
-  if (diff >= 0) {
-    presEl.textContent = `Te quedan ${presuFmtUSD(diff)} por gastar (de ${presuFmtUSD(presupuesto)})`;
-    presEl.className = 'gasto-presupuesto ok';
-  } else {
-    presEl.textContent = `¡Ya te pasaste ${presuFmtUSD(Math.abs(diff))} del presupuesto!`;
-    presEl.className = 'gasto-presupuesto over';
-  }
 }
 
 function gastoAdd() {
